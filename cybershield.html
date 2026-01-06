@@ -1,0 +1,1943 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CyberShield 3D - Interactive Fraud Detection Training</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-dark: #0a0b1e;
+            --bg-darker: #050614;
+            --primary: #00f5ff;
+            --secondary: #b537f2;
+            --success: #00ff88;
+            --danger: #ff3366;
+            --warning: #ffaa00;
+            --text: #e8f0ff;
+            --text-dim: #8899bb;
+            --glow: rgba(0, 245, 255, 0.5);
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            background: radial-gradient(ellipse at center, #1a1b3e 0%, var(--bg-darker) 100%);
+            color: var(--text);
+            overflow-x: hidden;
+            min-height: 100vh;
+            position: relative;
+        }
+
+        /* Animated background particles */
+        .bg-particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.3;
+        }
+
+        .bg-particle {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: var(--primary);
+            border-radius: 50%;
+            animation: float 20s infinite ease-in-out;
+            box-shadow: 0 0 10px var(--primary);
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) translateX(0); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateY(-100vh) translateX(50px); opacity: 0; }
+        }
+
+        /* Main Container */
+        .app-container {
+            position: relative;
+            z-index: 1;
+            min-height: 100vh;
+        }
+
+        /* Header with depth */
+        .header {
+            background: linear-gradient(135deg, rgba(10, 11, 30, 0.95), rgba(26, 27, 62, 0.95));
+            backdrop-filter: blur(20px);
+            border-bottom: 2px solid rgba(0, 245, 255, 0.3);
+            padding: 1.5rem 3rem;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5), 
+                        0 0 100px rgba(0, 245, 255, 0.1) inset;
+        }
+
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 2rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 30px var(--glow);
+            filter: drop-shadow(0 0 20px var(--primary));
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .logo:hover {
+            filter: drop-shadow(0 0 30px var(--primary)) 
+                    drop-shadow(0 0 50px var(--secondary));
+            transform: scale(1.05);
+        }
+
+        .progress-indicator {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            background: rgba(0, 245, 255, 0.1);
+            padding: 0.8rem 1.5rem;
+            border-radius: 50px;
+            border: 1px solid rgba(0, 245, 255, 0.3);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3), 
+                        0 0 40px rgba(0, 245, 255, 0.1) inset;
+        }
+
+        .progress-circle {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: conic-gradient(var(--primary) 0deg, var(--secondary) 180deg, transparent 180deg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            animation: rotate 3s linear infinite;
+        }
+
+        .progress-circle::before {
+            content: '';
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            background: var(--bg-dark);
+            border-radius: 50%;
+        }
+
+        .progress-text {
+            position: relative;
+            z-index: 1;
+            font-weight: 700;
+            font-size: 0.9rem;
+            color: var(--primary);
+        }
+
+        @keyframes rotate {
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Main content area */
+        .main-content {
+            max-width: 1600px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+        }
+
+        /* Step-by-step journey container */
+        .journey-container {
+            position: relative;
+            perspective: 2000px;
+        }
+
+        /* Step card with 3D effect */
+        .step-card {
+            background: linear-gradient(135deg, rgba(26, 27, 62, 0.9), rgba(10, 11, 30, 0.9));
+            border-radius: 30px;
+            padding: 3rem;
+            margin-bottom: 3rem;
+            position: relative;
+            transform-style: preserve-3d;
+            transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+            border: 2px solid rgba(0, 245, 255, 0.3);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5),
+                        0 0 100px rgba(0, 245, 255, 0.05) inset,
+                        0 5px 15px rgba(181, 55, 242, 0.1);
+            display: none;
+            animation: slideIn 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+
+        .step-card.active {
+            display: block;
+        }
+
+        .step-card:hover {
+            transform: translateZ(20px) scale(1.02);
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.6),
+                        0 0 150px rgba(0, 245, 255, 0.1) inset,
+                        0 10px 30px rgba(181, 55, 242, 0.2);
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(50px) rotateX(10deg);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) rotateX(0);
+            }
+        }
+
+        /* Step header */
+        .step-header {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+            margin-bottom: 2rem;
+            position: relative;
+        }
+
+        .step-number {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            font-weight: 800;
+            box-shadow: 0 10px 30px rgba(0, 245, 255, 0.5),
+                        0 0 60px rgba(181, 55, 242, 0.3);
+            animation: pulse 2s ease-in-out infinite;
+            flex-shrink: 0;
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                box-shadow: 0 10px 30px rgba(0, 245, 255, 0.5),
+                            0 0 60px rgba(181, 55, 242, 0.3);
+            }
+            50% {
+                box-shadow: 0 10px 40px rgba(0, 245, 255, 0.8),
+                            0 0 100px rgba(181, 55, 242, 0.5);
+            }
+        }
+
+        .step-info h2 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(135deg, var(--text), var(--primary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .step-info p {
+            color: var(--text-dim);
+            font-size: 1.1rem;
+        }
+
+        /* Visual cue indicator */
+        .cue-indicator {
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            background: var(--warning);
+            color: var(--bg-darker);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            box-shadow: 0 5px 20px rgba(255, 170, 0, 0.5);
+            animation: bounce 2s ease-in-out infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        /* 3D Scene Container */
+        .scene-3d {
+            width: 100%;
+            height: 600px;
+            border-radius: 20px;
+            margin: 2rem 0;
+            position: relative;
+            overflow: hidden;
+            background: linear-gradient(135deg, #0a0b1e, #1a1b3e);
+            border: 3px solid rgba(0, 245, 255, 0.4);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5),
+                        0 0 100px rgba(0, 245, 255, 0.1) inset;
+        }
+
+        #canvas-3d {
+            width: 100%;
+            height: 100%;
+        }
+
+        /* Interactive controls overlay */
+        .controls-overlay {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 1rem;
+            z-index: 10;
+        }
+
+        .control-hint {
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+            padding: 0.8rem 1.5rem;
+            border-radius: 15px;
+            border: 1px solid rgba(0, 245, 255, 0.4);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.9rem;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
+            animation: fadeInUp 0.5s ease-out;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .control-key {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            padding: 0.3rem 0.6rem;
+            border-radius: 5px;
+            font-weight: 700;
+            min-width: 30px;
+            text-align: center;
+        }
+
+        /* Scenario info panel */
+        .scenario-panel {
+            background: linear-gradient(135deg, rgba(0, 245, 255, 0.1), rgba(181, 55, 242, 0.1));
+            border-radius: 20px;
+            padding: 2rem;
+            margin: 2rem 0;
+            border: 2px solid rgba(0, 245, 255, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .scenario-panel::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 5px;
+            height: 100%;
+            background: linear-gradient(180deg, var(--primary), var(--secondary));
+            box-shadow: 0 0 20px var(--primary);
+        }
+
+        .scenario-title {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .scenario-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 15px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            box-shadow: 0 10px 30px rgba(0, 245, 255, 0.4);
+        }
+
+        .threat-indicators {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+
+        .indicator-card {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 1.5rem;
+            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .indicator-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, var(--danger), transparent);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .indicator-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--danger);
+            box-shadow: 0 10px 30px rgba(255, 51, 102, 0.3);
+        }
+
+        .indicator-card:hover::before {
+            opacity: 1;
+        }
+
+        .indicator-card.correct:hover {
+            border-color: var(--success);
+            box-shadow: 0 10px 30px rgba(0, 255, 136, 0.3);
+        }
+
+        .indicator-card.correct::before {
+            background: linear-gradient(90deg, transparent, var(--success), transparent);
+        }
+
+        .indicator-title {
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+
+        .indicator-desc {
+            color: var(--text-dim);
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        /* Action buttons with 3D effect */
+        .action-buttons {
+            display: flex;
+            gap: 1.5rem;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 1.2rem 2.5rem;
+            border: none;
+            border-radius: 15px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+            position: relative;
+            overflow: hidden;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        .btn:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: var(--bg-darker);
+            box-shadow: 0 10px 30px rgba(0, 245, 255, 0.4),
+                        0 5px 15px rgba(181, 55, 242, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 15px 40px rgba(0, 245, 255, 0.6),
+                        0 10px 25px rgba(181, 55, 242, 0.4);
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, var(--success), #00cc66);
+            color: var(--bg-darker);
+            box-shadow: 0 10px 30px rgba(0, 255, 136, 0.4);
+        }
+
+        .btn-success:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 15px 40px rgba(0, 255, 136, 0.6);
+        }
+
+        .btn-danger {
+            background: linear-gradient(135deg, var(--danger), #cc0033);
+            color: white;
+            box-shadow: 0 10px 30px rgba(255, 51, 102, 0.4);
+        }
+
+        .btn-danger:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 15px 40px rgba(255, 51, 102, 0.6);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--text);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.15);
+            border-color: var(--primary);
+            transform: translateY(-5px);
+        }
+
+        .btn span {
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Progress tracker */
+        .progress-tracker {
+            display: flex;
+            justify-content: space-between;
+            margin: 3rem 0;
+            position: relative;
+        }
+
+        .progress-tracker::before {
+            content: '';
+            position: absolute;
+            top: 20px;
+            left: 40px;
+            right: 40px;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.1);
+            z-index: 0;
+        }
+
+        .progress-line {
+            position: absolute;
+            top: 20px;
+            left: 40px;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            transition: width 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+            z-index: 1;
+            box-shadow: 0 0 20px var(--primary);
+        }
+
+        .progress-step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            z-index: 2;
+            flex: 1;
+        }
+
+        .progress-dot {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 0.5rem;
+            transition: all 0.3s;
+            font-weight: 700;
+        }
+
+        .progress-step.completed .progress-dot {
+            background: linear-gradient(135deg, var(--success), #00cc66);
+            border-color: var(--success);
+            box-shadow: 0 0 30px rgba(0, 255, 136, 0.5);
+        }
+
+        .progress-step.active .progress-dot {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-color: var(--primary);
+            box-shadow: 0 0 30px var(--glow);
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        .progress-label {
+            font-size: 0.85rem;
+            color: var(--text-dim);
+            text-align: center;
+            max-width: 100px;
+        }
+
+        .progress-step.active .progress-label {
+            color: var(--primary);
+            font-weight: 700;
+        }
+
+        /* Results modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            backdrop-filter: blur(10px);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+            animation: fadeIn 0.3s;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .modal-content {
+            background: linear-gradient(135deg, rgba(26, 27, 62, 0.95), rgba(10, 11, 30, 0.95));
+            border-radius: 30px;
+            padding: 3rem;
+            max-width: 600px;
+            width: 90%;
+            border: 2px solid rgba(0, 245, 255, 0.3);
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.8),
+                        0 0 150px rgba(0, 245, 255, 0.1) inset;
+            animation: modalSlideIn 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+            position: relative;
+        }
+
+        @keyframes modalSlideIn {
+            from {
+                opacity: 0;
+                transform: scale(0.8) rotateX(10deg);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1) rotateX(0);
+            }
+        }
+
+        .modal-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .modal-icon {
+            width: 100px;
+            height: 100px;
+            margin: 0 auto 1rem;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            animation: iconPop 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+
+        @keyframes iconPop {
+            0% { transform: scale(0) rotate(0deg); }
+            50% { transform: scale(1.2) rotate(180deg); }
+            100% { transform: scale(1) rotate(360deg); }
+        }
+
+        .modal-icon.success {
+            background: linear-gradient(135deg, var(--success), #00cc66);
+            box-shadow: 0 20px 60px rgba(0, 255, 136, 0.5);
+        }
+
+        .modal-icon.error {
+            background: linear-gradient(135deg, var(--danger), #cc0033);
+            box-shadow: 0 20px 60px rgba(255, 51, 102, 0.5);
+        }
+
+        .modal-title {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .modal-body {
+            text-align: left;
+            color: var(--text-dim);
+            line-height: 1.8;
+            margin-bottom: 2rem;
+        }
+
+        .score-display {
+            background: rgba(0, 245, 255, 0.1);
+            border: 2px solid rgba(0, 245, 255, 0.3);
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            text-align: center;
+        }
+
+        .score-value {
+            font-size: 3rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Tooltip */
+        .tooltip {
+            position: absolute;
+            background: rgba(0, 0, 0, 0.95);
+            color: var(--text);
+            padding: 1rem 1.5rem;
+            border-radius: 10px;
+            border: 1px solid rgba(0, 245, 255, 0.3);
+            font-size: 0.9rem;
+            pointer-events: none;
+            z-index: 3000;
+            opacity: 0;
+            transition: opacity 0.3s;
+            max-width: 300px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8);
+        }
+
+        .tooltip.show {
+            opacity: 1;
+        }
+
+        /* Notification toast */
+        .toast {
+            position: fixed;
+            top: 100px;
+            right: 2rem;
+            background: linear-gradient(135deg, rgba(26, 27, 62, 0.95), rgba(10, 11, 30, 0.95));
+            border: 2px solid rgba(0, 245, 255, 0.3);
+            border-radius: 15px;
+            padding: 1.5rem 2rem;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8);
+            z-index: 3000;
+            opacity: 0;
+            transform: translateX(400px);
+            transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+            max-width: 400px;
+        }
+
+        .toast.show {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .toast-content {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .toast-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            flex-shrink: 0;
+        }
+
+        .toast.success .toast-icon {
+            background: linear-gradient(135deg, var(--success), #00cc66);
+        }
+
+        .toast.info .toast-icon {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+        }
+
+        /* Loading animation */
+        .loader {
+            width: 60px;
+            height: 60px;
+            border: 4px solid rgba(0, 245, 255, 0.2);
+            border-top-color: var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 2rem auto;
+        }
+
+        @keyframes spin {
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header {
+                padding: 1rem 1.5rem;
+            }
+
+            .logo {
+                font-size: 1.5rem;
+            }
+
+            .progress-indicator {
+                padding: 0.5rem 1rem;
+            }
+
+            .main-content {
+                padding: 1.5rem 1rem;
+            }
+
+            .step-card {
+                padding: 1.5rem;
+            }
+
+            .step-header {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .step-number {
+                width: 60px;
+                height: 60px;
+                font-size: 1.5rem;
+            }
+
+            .step-info h2 {
+                font-size: 1.5rem;
+            }
+
+            .scene-3d {
+                height: 400px;
+            }
+
+            .action-buttons {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+            }
+
+            .progress-tracker {
+                flex-wrap: wrap;
+            }
+
+            .toast {
+                right: 1rem;
+                left: 1rem;
+                max-width: none;
+            }
+        }
+
+        /* Hide scrollbar but keep functionality */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--bg-darker);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(180deg, var(--primary), var(--secondary));
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--primary);
+        }
+    </style>
+</head>
+<body>
+    <!-- Background particles -->
+    <div class="bg-particles" id="bgParticles"></div>
+
+    <!-- Main app container -->
+    <div class="app-container">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-content">
+                <div class="logo" onclick="resetJourney()">⚡ CYBERSHIELD 3D</div>
+                <div class="progress-indicator">
+                    <div class="progress-circle">
+                        <div class="progress-text" id="headerProgress">0/4</div>
+                    </div>
+                    <div>
+                        <div style="font-weight: 700; font-size: 0.9rem;">Training Progress</div>
+                        <div style="color:var(--text-dim); font-size: 0.8rem;" id="headerStatus">Not Started</div>
+                            </div>
+                            </div>
+                            </div>
+                            </header>
+                            <!-- Main content -->
+                                <main class="main-content">
+                                    <!-- Progress tracker -->
+                                    <div class="progress-tracker">
+                                        <div class="progress-line" id="progressLine"></div>
+                                        <div class="progress-step" data-step="1">
+                                            <div class="progress-dot">1</div>
+                                            <div class="progress-label">Welcome</div>
+                                        </div>
+                                        <div class="progress-step" data-step="2">
+                                            <div class="progress-dot">2</div>
+                                            <div class="progress-label">Learn</div>
+                                        </div>
+                                        <div class="progress-step" data-step="3">
+                                            <div class="progress-dot">3</div>
+                                            <div class="progress-label">Practice</div>
+                                        </div>
+                                        <div class="progress-step" data-step="4">
+                                            <div class="progress-dot">4</div>
+                                            <div class="progress-label">Results</div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Journey container -->
+                                    <div class="journey-container">
+
+                                        <!-- Step 1: Welcome -->
+                                        <div class="step-card active" id="step1">
+                                            <div class="cue-indicator">👉 START HERE</div>
+                                            <div class="step-header">
+                                                <div class="step-number">1</div>
+                                                <div class="step-info">
+                                                    <h2>Welcome to CyberShield 3D Training</h2>
+                                                    <p>Learn to detect and prevent fraud in an immersive 3D environment</p>
+                                                </div>
+                                            </div>
+
+                                            <div class="scenario-panel">
+                                                <div style="text-align: center; padding: 2rem;">
+                                                    <h3 style="font-size: 2rem; margin-bottom: 1rem;">🎯 Your Mission</h3>
+                                                    <p style="font-size: 1.2rem; color: var(--text-dim); margin-bottom: 2rem; line-height: 1.8;">
+                                                        You're about to enter a realistic 3D simulation where you'll face a sophisticated phishing attack. 
+                                                        Your goal is to identify the threats, make the right decisions, and protect sensitive data.
+                                                    </p>
+
+                                                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; margin: 2rem 0;">
+                                                        <div style="background: rgba(0, 245, 255, 0.1); padding: 1.5rem; border-radius: 15px; border: 1px solid rgba(0, 245, 255, 0.3);">
+                                                            <div style="font-size: 2rem; margin-bottom: 0.5rem;">🎮</div>
+                                                            <h4 style="margin-bottom: 0.5rem;">Interactive 3D</h4>
+                                                            <p style="color: var(--text-dim); font-size: 0.9rem;">Explore scenarios in immersive 3D space</p>
+                                                        </div>
+                                                        <div style="background: rgba(181, 55, 242, 0.1); padding: 1.5rem; border-radius: 15px; border: 1px solid rgba(181, 55, 242, 0.3);">
+                                                            <div style="font-size: 2rem; margin-bottom: 0.5rem;">📊</div>
+                                                            <h4 style="margin-bottom: 0.5rem;">Real-Time Feedback</h4>
+                                                            <p style="color: var(--text-dim); font-size: 0.9rem;">Get instant analysis of your decisions</p>
+                                                        </div>
+                                                        <div style="background: rgba(0, 255, 136, 0.1); padding: 1.5rem; border-radius: 15px; border: 1px solid rgba(0, 255, 136, 0.3);">
+                                                            <div style="font-size: 2rem; margin-bottom: 0.5rem;">🏆</div>
+                                                            <h4 style="margin-bottom: 0.5rem;">Earn Rewards</h4>
+                                                            <p style="color: var(--text-dim); font-size: 0.9rem;">Build skills and track your progress</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="action-buttons">
+                                                <button class="btn btn-primary" onclick="nextStep()">
+                                                    <span>🚀 Begin Training →</span>
+                                                </button>
+                                            </div>
+                                        </div>
+
+                                        <!-- Step 2: Learn -->
+                                        <div class="step-card" id="step2">
+                                            <div class="cue-indicator">📚 LEARN</div>
+                                            <div class="step-header">
+                                                <div class="step-number">2</div>
+                                                <div class="step-info">
+                                                    <h2>Understanding Phishing Attacks</h2>
+                                                    <p>Explore the 3D email and identify threat indicators</p>
+                                                </div>
+                                            </div>
+
+                                            <!-- 3D Scene -->
+                                            <div class="scene-3d">
+                                                <canvas id="canvas-3d"></canvas>
+                                                <div class="controls-overlay">
+                                                    <div class="control-hint">
+                                                        <span class="control-key">🖱️</span>
+                                                        <span>Rotate Email</span>
+                                                    </div>
+                                                    <div class="control-hint">
+                                                        <span class="control-key">👆</span>
+                                                        <span>Click Indicators</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="scenario-panel">
+                                                <div class="scenario-title">
+                                                    <div class="scenario-icon">📧</div>
+                                                    <div>
+                                                        <h3>Phishing Email Detection</h3>
+                                                        <p style="color: var(--text-dim); font-size: 0.9rem; margin-top: 0.3rem;">
+                                                            Examine this suspicious email carefully. Click on the threat indicators to learn more.
+                                                        </p>
+                                                    </div>
+                                                </div>
+
+                                                <div class="threat-indicators" id="threatIndicators">
+                                                    <div class="indicator-card correct" onclick="selectIndicator(1, true)" data-indicator="1">
+                                                        <div class="indicator-title">🚩 Suspicious Sender</div>
+                                                        <div class="indicator-desc">Email address doesn't match the official domain</div>
+                                                    </div>
+                                                    <div class="indicator-card correct" onclick="selectIndicator(2, true)" data-indicator="2">
+                                                        <div class="indicator-title">⚠️ Urgency Tactics</div>
+                                                        <div class="indicator-desc">Pressures immediate action with threats</div>
+                                                    </div>
+                                                    <div class="indicator-card correct" onclick="selectIndicator(3, true)" data-indicator="3">
+                                                        <div class="indicator-title">🔗 Malicious Link</div>
+                                                        <div class="indicator-desc">URL doesn't match the claimed destination</div>
+                                                    </div>
+                                                    <div class="indicator-card" onclick="selectIndicator(4, false)" data-indicator="4">
+                                                        <div class="indicator-title">✅ Professional Logo</div>
+                                                        <div class="indicator-desc">Company branding appears legitimate</div>
+                                                    </div>
+                                                </div>
+
+                                                <div id="learningProgress" style="margin-top: 2rem; display: none;">
+                                                    <div style="background: rgba(0, 255, 136, 0.1); border: 2px solid rgba(0, 255, 136, 0.3); border-radius: 15px; padding: 1.5rem;">
+                                                        <h4 style="color: var(--success); margin-bottom: 1rem;">✅ Great! You've identified all the threats!</h4>
+                                                        <p style="color: var(--text-dim); line-height: 1.6;">
+                                                            Remember: Attackers often use legitimate-looking logos and branding to appear trustworthy. 
+                                                            Always verify the sender's email address, check for urgency tactics, and hover over links before clicking.
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="action-buttons">
+                                                <button class="btn btn-secondary" onclick="prevStep()">
+                                                    <span>← Back</span>
+                                                </button>
+                                                <button class="btn btn-primary" id="learnNextBtn" onclick="nextStep()" disabled style="opacity: 0.5; cursor: not-allowed;">
+                                                    <span>Continue to Practice →</span>
+                                                </button>
+                                            </div>
+                                        </div>
+
+                                        <!-- Step 3: Practice -->
+                                        <div class="step-card" id="step3">
+                                            <div class="cue-indicator">🎯 TEST YOUR SKILLS</div>
+                                            <div class="step-header">
+                                                <div class="step-number">3</div>
+                                                <div class="step-info">
+                                                    <h2>Make Your Decision</h2>
+                                                    <p>What action will you take with this email?</p>
+                                                </div>
+                                            </div>
+
+                                            <!-- 3D Scene -->
+                                            <div class="scene-3d">
+                                                <canvas id="canvas-3d-practice"></canvas>
+                                                <div class="controls-overlay">
+                                                    <div class="control-hint" style="background: rgba(255, 51, 102, 0.2); border-color: var(--danger);">
+                                                        <span style="font-size: 1.2rem;">⏰</span>
+                                                        <span id="timerDisplay">Time: 30s</span>
+                                                    </div>
+                                                    <div class="control-hint" style="background: rgba(0, 245, 255, 0.2); border-color: var(--primary);">
+                                                        <span style="font-size: 1.2rem;">🎯</span>
+                                                        <span id="scoreDisplay">Score: 0</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="scenario-panel">
+                                                <div class="scenario-title">
+                                                    <div class="scenario-icon">⚡</div>
+                                                    <div>
+                                                        <h3>Decision Time</h3>
+                                                        <p style="color: var(--text-dim); font-size: 0.9rem; margin-top: 0.3rem;">
+                                                            You've received this email claiming to be from your bank. Choose your response carefully!
+                                                        </p>
+                                                    </div>
+                                                </div>
+
+                                                <div style="background: rgba(255, 170, 0, 0.1); border: 2px solid rgba(255, 170, 0, 0.3); border-radius: 15px; padding: 1.5rem; margin: 1.5rem 0;">
+                                                    <h4 style="color: var(--warning); margin-bottom: 0.5rem;">⚠️ Think Before You Act</h4>
+                                                    <p style="color: var(--text-dim); font-size: 0.95rem; line-height: 1.6;">
+                                                        In a real scenario, one wrong click could compromise your entire organization's security. 
+                                                        Consider what you learned about threat indicators.
+                                                    </p>
+                                                </div>
+
+                                                <div class="action-buttons" style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                                                    <button class="btn btn-danger" onclick="makeDecision('click')" style="width: 100%;">
+                                                        <span>🖱️ Click the Link</span>
+                                                    </button>
+                                                    <button class="btn btn-secondary" onclick="makeDecision('ignore')" style="width: 100%;">
+                                                        <span>🚫 Ignore Email</span>
+                                                    </button>
+                                                    <button class="btn btn-success" onclick="makeDecision('report')" style="width: 100%;">
+                                                        <span>🛡️ Report as Phishing</span>
+                                                    </button>
+                                                    <button class="btn btn-secondary" onclick="makeDecision('verify')" style="width: 100%;">
+                                                        <span>📞 Call Bank Directly</span>
+                                                    </button>
+                                                </div>
+                                            </div>
+
+                                            <div class="action-buttons">
+                                                <button class="btn btn-secondary" onclick="prevStep()">
+                                                    <span>← Back</span>
+                                                </button>
+                                            </div>
+                                        </div>
+
+                                        <!-- Step 4: Results -->
+                                        <div class="step-card" id="step4">
+                                            <div class="step-header">
+                                                <div class="step-number">4</div>
+                                                <div class="step-info">
+                                                    <h2>Training Complete!</h2>
+                                                    <p>Review your performance and insights</p>
+                                                </div>
+                                            </div>
+
+                                            <div class="scenario-panel" id="resultsPanel">
+                                                <!-- Results will be dynamically inserted here -->
+                                            </div>
+
+                                            <div class="action-buttons">
+                                                <button class="btn btn-primary" onclick="resetJourney()">
+                                                    <span>🔄 Start New Training</span>
+                                                </button>
+                                                <button class="btn btn-secondary" onclick="showCertificate()">
+                                                    <span>🏆 View Certificate</span>
+                                                </button>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </main>
+                            </div>
+
+                            <!-- Modal -->
+                            <div class="modal" id="modal">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <div class="modal-icon" id="modalIcon">✓</div>
+                                        <h2 class="modal-title" id="modalTitle">Title</h2>
+                                    </div>
+                                    <div class="modal-body" id="modalBody">Content</div>
+                                    <div class="action-buttons" style="justify-content: center;">
+                                        <button class="btn btn-primary" onclick="closeModal()">
+                                            <span>Continue</span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Toast notification -->
+                            <div class="toast" id="toast">
+                                <div class="toast-content">
+                                    <div class="toast-icon">ℹ️</div>
+                                    <div id="toastMessage">Notification message</div>
+                                </div>
+                            </div>
+
+                            <!-- Three.js -->
+                            <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+                            <script>
+                                // Global state
+                                let currentStep = 1;
+                                let score = 0;
+                                let timer = 30;
+                                let timerInterval;
+                                let scene, camera, renderer;
+                                let scene2, camera2, renderer2;
+                                let selectedIndicators = new Set();
+                                let allThreatsIdentified = false;
+
+                                // Initialize
+                                document.addEventListener('DOMContentLoaded', () => {
+                                    createBackgroundParticles();
+                                    updateProgress();
+                                });
+
+                                // Create animated background particles
+                                function createBackgroundParticles() {
+                                    const container = document.getElementById('bgParticles');
+                                    for (let i = 0; i < 30; i++) {
+                                        const particle = document.createElement('div');
+                                        particle.className = 'bg-particle';
+                                        particle.style.left = Math.random() * 100 + '%';
+                                        particle.style.animationDelay = Math.random() * 20 + 's';
+                                        particle.style.animationDuration = (15 + Math.random() * 10) + 's';
+                                        container.appendChild(particle);
+                                    }
+                                }
+
+                                // Navigation functions
+                                function nextStep() {
+                                    if (currentStep < 4) {
+                                        // Hide current step
+                                        document.getElementById(`step${currentStep}`).classList.remove('active');
+
+                                        currentStep++;
+
+                                        // Show next step
+                                        document.getElementById(`step${currentStep}`).classList.add('active');
+
+                                        updateProgress();
+
+                                        // Initialize step-specific features
+                                        if (currentStep === 2) {
+                                            setTimeout(() => init3DScene(), 100);
+                                        } else if (currentStep === 3) {
+                                            setTimeout(() => init3DScenePractice(), 100);
+                                            startTimer();
+                                        }
+
+                                        window.scrollTo({ top: 0, behavior: 'smooth' });
+                                    }
+                                }
+
+                                function prevStep() {
+                                    if (currentStep > 1) {
+                                        document.getElementById(`step${currentStep}`).classList.remove('active');
+                                        currentStep--;
+                                        document.getElementById(`step${currentStep}`).classList.add('active');
+                                        updateProgress();
+                                        window.scrollTo({ top: 0, behavior: 'smooth' });
+                                    }
+                                }
+
+                                function resetJourney() {
+                                    currentStep = 1;
+                                    score = 0;
+                                    selectedIndicators.clear();
+                                    allThreatsIdentified = false;
+
+                                    // Hide all steps
+                                    document.querySelectorAll('.step-card').forEach(card => {
+                                        card.classList.remove('active');
+                                    });
+
+                                    // Show first step
+                                    document.getElementById('step1').classList.add('active');
+
+                                    // Reset indicators
+                                    document.querySelectorAll('.indicator-card').forEach(card => {
+                                        card.style.opacity = '1';
+                                        card.style.pointerEvents = 'auto';
+                                    });
+
+                                    document.getElementById('learningProgress').style.display = 'none';
+                                    document.getElementById('learnNextBtn').disabled = true;
+                                    document.getElementById('learnNextBtn').style.opacity = '0.5';
+                                    document.getElementById('learnNextBtn').style.cursor = 'not-allowed';
+
+                                    updateProgress();
+                                    window.scrollTo({ top: 0, behavior: 'smooth' });
+
+                                    showToast('Training reset. Good luck! 🚀', 'info');
+                                }
+
+                                // Update progress indicator
+                                function updateProgress() {
+                                    // Update header
+                                    document.getElementById('headerProgress').textContent = `${currentStep-1}/4`;
+                                    const statuses = ['Not Started', 'Learning...', 'Practicing...', 'Completed!'];
+                                    document.getElementById('headerStatus').textContent = statuses[currentStep-1];
+
+                                    // Update progress tracker
+                                    document.querySelectorAll('.progress-step').forEach((step, index) => {
+                                        const stepNum = index + 1;
+                                        if (stepNum < currentStep) {
+                                            step.classList.add('completed');
+                                            step.classList.remove('active');
+                                        } else if (stepNum === currentStep) {
+                                            step.classList.add('active');
+                                            step.classList.remove('completed');
+                                        } else {
+                                            step.classList.remove('active', 'completed');
+                                        }
+                                    });
+
+                                    // Update progress line
+                                    const progressPercentage = ((currentStep - 1) / 3) * 100;
+                                    const lineWidth = `calc(${progressPercentage}% - 40px)`;
+                                    document.getElementById('progressLine').style.width = lineWidth;
+                                }
+
+                                // 3D Scene for learning step
+                                function init3DScene() {
+                                    const canvas = document.getElementById('canvas-3d');
+                                    if (!canvas || scene) return;
+
+                                    const width = canvas.parentElement.offsetWidth;
+                                    const height = canvas.parentElement.offsetHeight;
+
+                                    scene = new THREE.Scene();
+                                    scene.background = new THREE.Color(0x0a0b1e);
+                                    scene.fog = new THREE.Fog(0x0a0b1e, 10, 50);
+
+                                    camera = new THREE.PerspectiveCamera(60, width / height, 0.1, 1000);
+                                    camera.position.set(0, 0, 15);
+
+                                    renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true });
+                                    renderer.setSize(width, height);
+                                    renderer.setPixelRatio(window.devicePixelRatio);
+
+                                    // Lighting
+                                    const ambientLight = new THREE.AmbientLight(0x404040, 1.5);
+                                    scene.add(ambientLight);
+
+                                    const pointLight1 = new THREE.PointLight(0x00f5ff, 2, 50);
+                                    pointLight1.position.set(10, 10, 10);
+                                    scene.add(pointLight1);
+
+                                    const pointLight2 = new THREE.PointLight(0xb537f2, 1.5, 50);
+                                    pointLight2.position.set(-10, -5, 5);
+                                    scene.add(pointLight2);
+
+                                    // Create email envelope
+                                    const envelopeGroup = new THREE.Group();
+
+                                    // Main envelope body
+                                    const envelopeGeometry = new THREE.BoxGeometry(8, 5, 0.5);
+                                    const envelopeMaterial = new THREE.MeshPhongMaterial({
+                                        color: 0x1a1b3e,
+                                        emissive: 0x00f5ff,
+                                        emissiveIntensity: 0.2,
+                                        shininess: 100
+                                    });
+                                    const envelope = new THREE.Mesh(envelopeGeometry, envelopeMaterial);
+                                    envelopeGroup.add(envelope);
+
+                                    // Envelope flap
+                                    const flapGeometry = new THREE.ConeGeometry(4, 3, 4);
+                                    const flapMaterial = new THREE.MeshPhongMaterial({
+                                        color: 0x2a2b4e,
+                                        emissive: 0xb537f2,
+                                        emissiveIntensity: 0.2
+                                    });
+                                    const flap = new THREE.Mesh(flapGeometry, flapMaterial);
+                                    flap.rotation.z = Math.PI;
+                                    flap.position.y = 2.5;
+                                    flap.position.z = 0.3;
+                                    envelopeGroup.add(flap);
+
+                                    // Warning indicators
+                                    const warningPositions = [
+                                        { x: -3, y: 2.5, z: 0.5 },
+                                        { x: 0, y: 2.5, z: 0.5 },
+                                        { x: 3, y: 2.5, z: 0.5 }
+                                    ];
+
+                                    warningPositions.forEach((pos, i) => {
+                                        const warningGeometry = new THREE.OctahedronGeometry(0.4);
+                                        const warningMaterial = new THREE.MeshPhongMaterial({
+                                            color: 0xff3366,
+                                            emissive: 0xff3366,
+                                            emissiveIntensity: 0.8
+                                        });
+                                        const warning = new THREE.Mesh(warningGeometry, warningMaterial);
+                                        warning.position.set(pos.x, pos.y, pos.z);
+                                        envelopeGroup.add(warning);
+
+                                        // Store reference for animation
+                                        warning.userData = { 
+                                            originalY: pos.y, 
+                                            speed: 0.02 + i * 0.01,
+                                            phase: i * Math.PI / 1.5
+                                        };
+                                    });
+
+                                    // Suspicious link indicator
+                                    const linkGeometry = new THREE.BoxGeometry(6, 0.5, 0.1);
+                                    const linkMaterial = new THREE.MeshPhongMaterial({
+                                        color: 0xff3366,
+                                        emissive: 0xff3366,
+                                        emissiveIntensity: 0.4
+                                    });
+                                    const link = new THREE.Mesh(linkGeometry, linkMaterial);
+                                    link.position.set(0, -1, 0.3);
+                                    envelopeGroup.add(link);
+
+                                    scene.add(envelopeGroup);
+
+                                    // Floating particles
+                                    const particleGeometry = new THREE.SphereGeometry(0.05, 8, 8);
+                                    const particleMaterial = new THREE.MeshBasicMaterial({
+                                        color: 0x00f5ff,
+                                        transparent: true,
+                                        opacity: 0.6
+                                    });
+
+                                    for (let i = 0; i < 100; i++) {
+                                        const particle = new THREE.Mesh(particleGeometry, particleMaterial);
+                                        particle.position.set(
+                                            (Math.random() - 0.5) * 30,
+                                            (Math.random() - 0.5) * 30,
+                                            (Math.random() - 0.5) * 30
+                                        );
+                                        particle.userData = {
+                                            velocity: new THREE.Vector3(
+                                                (Math.random() - 0.5) * 0.02,
+                                                (Math.random() - 0.5) * 0.02,
+                                                (Math.random() - 0.5) * 0.02
+                                            )
+                                        };
+                                        scene.add(particle);
+                                    }
+
+                                    // Animation loop
+                                    function animate() {
+                                        requestAnimationFrame(animate);
+
+                                        // Rotate envelope group
+                                        envelopeGroup.rotation.y += 0.005;
+                                        envelopeGroup.rotation.x = Math.sin(Date.now() * 0.001) * 0.1;
+
+                                        // Animate warning indicators
+                                        envelopeGroup.children.forEach(child => {
+                                            if (child.userData.originalY !== undefined) {
+                                                child.position.y = child.userData.originalY + 
+                                                    Math.sin(Date.now() * child.userData.speed + child.userData.phase) * 0.3;
+                                                child.rotation.y += 0.03;
+                                            }
+                                        });
+
+                                        // Animate particles
+                                        scene.children.forEach(child => {
+                                            if (child.userData.velocity) {
+                                                child.position.add(child.userData.velocity);
+
+                                                // Boundary check
+                                                ['x', 'y', 'z'].forEach(axis => {
+                                                    if (Math.abs(child.position[axis]) > 15) {
+                                                        child.userData.velocity[axis] *= -1;
+                                                    }
+                                                });
+                                            }
+                                        });
+
+                                        renderer.render(scene, camera);
+                                    }
+
+                                    animate();
+
+                                    // Handle window resize
+                                    window.addEventListener('resize', () => {
+                                        if (renderer && camera) {
+                                            const w = canvas.parentElement.offsetWidth;
+                                            const h = canvas.parentElement.offsetHeight;
+                                            camera.aspect = w / h;
+                                            camera.updateProjectionMatrix();
+                                            renderer.setSize(w, h);
+                                        }
+                                    });
+                                }
+
+                                // 3D Scene for practice step
+                                function init3DScenePractice() {
+                                    const canvas = document.getElementById('canvas-3d-practice');
+                                    if (!canvas || scene2) return;
+
+                                    const width = canvas.parentElement.offsetWidth;
+                                    const height = canvas.parentElement.offsetHeight;
+
+                                    scene2 = new THREE.Scene();
+                                    scene2.background = new THREE.Color(0x0a0b1e);
+                                    scene2.fog = new THREE.Fog(0x0a0b1e, 10, 50);
+
+                                    camera2 = new THREE.PerspectiveCamera(60, width / height, 0.1, 1000);
+                                    camera2.position.set(0, 0, 12);
+
+                                    renderer2 = new THREE.WebGLRenderer({ canvas: canvas, antialias: true });
+                                    renderer2.setSize(width, height);
+                                    renderer2.setPixelRatio(window.devicePixelRatio);
+
+                                    // Lighting
+                                    const ambientLight = new THREE.AmbientLight(0x404040, 1.5);
+                                    scene2.add(ambientLight);
+
+                                    const pointLight1 = new THREE.PointLight(0xff3366, 2, 50);
+                                    pointLight1.position.set(8, 8, 8);
+                                    scene2.add(pointLight1);
+
+                                    const pointLight2 = new THREE.PointLight(0xffaa00, 1.5, 50);
+                                    pointLight2.position.set(-8, -5, 5);
+                                    scene2.add(pointLight2);
+
+                                    // Create dramatic email with warning signs
+                                    const emailGroup = new THREE.Group();
+
+                                    // Email card
+                                    const cardGeometry = new THREE.BoxGeometry(7, 9, 0.3);
+                                    const cardMaterial = new THREE.MeshPhongMaterial({
+                                        color: 0x1a1b3e,
+                                        emissive: 0xff3366,
+                                        emissiveIntensity: 0.1,
+                                        shininess: 100
+                                    });
+                                    const card = new THREE.Mesh(cardGeometry, cardMaterial);
+                                    emailGroup.add(card);
+
+                                    // Danger symbols
+                                    const dangerGeometry = new THREE.OctahedronGeometry(0.5);
+                                    const dangerMaterial = new THREE.MeshPhongMaterial({
+                                        color: 0xff3366,
+                                        emissive: 0xff3366,
+                                        emissiveIntensity: 1
+                                    });
+
+                                    for (let i = 0; i < 5; i++) {
+                                        const danger = new THREE.Mesh(dangerGeometry, dangerMaterial);
+                                        const angle = (i / 5) * Math.PI * 2;
+                                        danger.position.set(
+                                            Math.cos(angle) * 4,
+                                            Math.sin(angle) * 5,
+                                            0.5
+                                        );
+                                        danger.userData = { 
+                                            angle: angle, 
+                                            speed: 0.02,
+                                            distance: 4 + Math.random()
+                                        };
+                                        emailGroup.add(danger);
+                                    }
+
+                                    scene2.add(emailGroup);
+
+                                    // Alert particles
+                                    for (let i = 0; i < 50; i++) {
+                                        const size = 0.05 + Math.random() * 0.1;
+                                        const particleGeometry = new THREE.SphereGeometry(size, 8, 8);
+                                        const particleMaterial = new THREE.MeshBasicMaterial({
+                                            color: Math.random() > 0.5 ? 0xff3366 : 0xffaa00,
+                                            transparent: true,
+                                            opacity: 0.7
+                                        });
+                                        const particle = new THREE.Mesh(particleGeometry, particleMaterial);
+                                        particle.position.set(
+                                            (Math.random() - 0.5) * 20,
+                                            (Math.random() - 0.5) * 20,
+                                            (Math.random() - 0.5) * 20
+                                        );
+                                        particle.userData = {
+                                            speed: 0.01 + Math.random() * 0.02,
+                                            direction: new THREE.Vector3(
+                                                (Math.random() - 0.5),
+                                                (Math.random() - 0.5),
+                                                (Math.random() - 0.5)
+                                            ).normalize()
+                                        };
+                                        scene2.add(particle);
+                                    }
+
+                                    // Animation loop
+                                    function animate() {
+                                        requestAnimationFrame(animate);
+
+                                        // Rotate email with dramatic effect
+                                        emailGroup.rotation.y += 0.008;
+                                        emailGroup.rotation.z = Math.sin(Date.now() * 0.001) * 0.05;
+
+                                        // Animate danger symbols in orbit
+                                        emailGroup.children.forEach(child => {
+                                            if (child.userData.angle !== undefined) {
+                                                child.userData.angle += child.userData.speed;
+                                                child.position.x = Math.cos(child.userData.angle) * child.userData.distance;
+                                                child.position.y = Math.sin(child.userData.angle) * (child.userData.distance + 1);
+                                                child.rotation.x += 0.05;
+                                                child.rotation.y += 0.03;
+
+                                                // Pulsing effect
+                                                const scale = 1 +Math.sin(Date.now() * 0.005 + child.userData.angle) * 0.3;
+                                                    child.scale.set(scale, scale, scale);
+                                                    }
+                                                    });
+                                        // Animate particles
+                                                    scene2.children.forEach(child => {
+                                                        if (child.userData.speed) {
+                                                            child.position.add(
+                                                                child.userData.direction.clone().multiplyScalar(child.userData.speed)
+                                                            );
+
+                                                            // Wrap around
+                                                            ['x', 'y', 'z'].forEach(axis => {
+                                                                if (child.position[axis] > 10) child.position[axis] = -10;
+                                                                if (child.position[axis] < -10) child.position[axis] = 10;
+                                                            });
+                                                        }
+                                                    });
+
+                                                    // Pulsing lights
+                                                    pointLight1.intensity = 2 + Math.sin(Date.now() * 0.003) * 0.5;
+                                                    pointLight2.intensity = 1.5 + Math.cos(Date.now() * 0.004) * 0.3;
+
+                                                    renderer2.render(scene2, camera2);
+                                                }
+
+                                                animate();
+
+                                                // Handle window resize
+                                                window.addEventListener('resize', () => {
+                                                    if (renderer2 && camera2) {
+                                                        const w = canvas.parentElement.offsetWidth;
+                                                        const h = canvas.parentElement.offsetHeight;
+                                                        camera2.aspect = w / h;
+                                                        camera2.updateProjectionMatrix();
+                                                        renderer2.setSize(w, h);
+                                                    }
+                                                });
+                                            }
+
+                                            // Indicator selection
+                                            function selectIndicator(id, isCorrect) {
+                                                if (selectedIndicators.has(id)) return;
+
+                                                selectedIndicators.add(id);
+                                                const card = document.querySelector(`[data-indicator="${id}"]`);
+
+                                                if (isCorrect) {
+                                                    card.style.opacity = '0.5';
+                                                    card.style.pointerEvents = 'none';
+                                                    score += 25;
+
+                                                    showToast('✅ Correct! Threat identified', 'success');
+
+                                                    // Check if all threats identified
+                                                    if (selectedIndicators.size === 3) {
+                                                        allThreatsIdentified = true;
+                                                        document.getElementById('learningProgress').style.display = 'block';
+                                                        const btn = document.getElementById('learnNextBtn');
+                                                        btn.disabled = false;
+                                                        btn.style.opacity = '1';
+                                                        btn.style.cursor = 'pointer';
+
+                                                        showToast('🎉 All threats identified! Ready to practice', 'success');
+                                                    }
+                                                } else {
+                                                    showModal(
+                                                        '⚠️ Not a Threat',
+                                                        'error',
+                                                        `<p>While a professional logo might seem legitimate, attackers often copy official branding to appear trustworthy. Always verify other indicators like sender email and message content.</p>
+                                                        <p style="margin-top: 1rem; color: var(--text-dim);">Remember: Visual elements can be easily replicated!</p>`
+                                                    );
+                                                }
+                                            }
+
+                                            // Timer for practice step
+                                            function startTimer() {
+                                                timer = 30;
+                                                updateTimerDisplay();
+
+                                                timerInterval = setInterval(() => {
+                                                    timer--;
+                                                    updateTimerDisplay();
+
+                                                    if (timer <= 0) {
+                                                        clearInterval(timerInterval);
+                                                        showToast('⏰ Time\'s up! Make your decision now.', 'info');
+                                                    }
+                                                }, 1000);
+                                            }
+
+                                            function updateTimerDisplay() {
+                                                const display = document.getElementById('timerDisplay');
+                                                if (display) {
+                                                    display.textContent = `Time: ${timer}s`;
+                                                    if (timer <= 10) {
+                                                        display.parentElement.style.background = 'rgba(255, 51, 102, 0.3)';
+                                                        display.parentElement.style.borderColor = 'var(--danger)';
+                                                    }
+                                                }
+
+                                                const scoreDisplay = document.getElementById('scoreDisplay');
+                                                if (scoreDisplay) {
+                                                    scoreDisplay.textContent = `Score: ${score}`;
+                                                }
+                                            }
+
+                                            // Decision making
+                                            function makeDecision(action) {
+                                                clearInterval(timerInterval);
+
+                                                const timeBonus = Math.max(0, timer * 2);
+                                                let actionScore = 0;
+                                                let resultTitle = '';
+                                                let resultIcon = '';
+                                                let resultMessage = '';
+                                                let isCorrect = false;
+
+                                                switch(action) {
+                                                    case 'click':
+                                                        actionScore = -50;
+                                                        resultTitle = '❌ Critical Error!';
+                                                        resultIcon = 'error';
+                                                        resultMessage = `
+                                                            <p style="font-size: 1.1rem; margin-bottom: 1rem;">Clicking the malicious link would have compromised your system and potentially given attackers access to sensitive data.</p>
+                                                            <div style="background: rgba(255, 51, 102, 0.1); padding: 1rem; border-radius: 10px; border: 1px solid rgba(255, 51, 102, 0.3); margin: 1rem 0;">
+                                                                <h4 style="color: var(--danger); margin-bottom: 0.5rem;">⚠️ What Could Happen:</h4>
+                                                                <ul style="color: var(--text-dim); padding-left: 1.5rem; line-height: 1.8;">
+                                                                    <li>Malware installation on your device</li>
+                                                                    <li>Theft of login credentials and sensitive data</li>
+                                                                    <li>Unauthorized access to company systems</li>
+                                                                    <li>Financial loss and reputational damage</li>
+                                                                </ul>
+                                                            </div>
+                                                            <p style="color: var(--text-dim);">Always verify suspicious emails before taking any action!</p>
+                                                        `;
+                                                        break;
+
+                                                    case 'ignore':
+                                                        actionScore = 25;
+                                                        resultTitle = '⚠️ Partial Credit';
+                                                        resultIcon = 'error';
+                                                        resultMessage = `
+                                                            <p style="font-size: 1.1rem; margin-bottom: 1rem;">Ignoring the email is better than clicking, but it's not the best response.</p>
+                                                            <div style="background: rgba(255, 170, 0, 0.1); padding: 1rem; border-radius: 10px; border: 1px solid rgba(255, 170, 0, 0.3); margin: 1rem 0;">
+                                                                <h4 style="color: var(--warning); margin-bottom: 0.5rem;">Why This Isn't Enough:</h4>
+                                                                <ul style="color: var(--text-dim); padding-left: 1.5rem; line-height: 1.8;">
+                                                                    <li>The threat remains unreported</li>
+                                                                    <li>Other employees might fall victim</li>
+                                                                    <li>Security team can't take action</li>
+                                                                    <li>Attacker continues their campaign</li>
+                                                                </ul>
+                                                            </div>
+                                                            <p style="color: var(--text-dim);">The best practice is to report phishing attempts!</p>
+                                                        `;
+                                                        break;
+
+                                                    case 'report':
+                                                        actionScore = 100;
+                                                        resultTitle = '🎉 Excellent Choice!';
+                                                        resultIcon = 'success';
+                                                        isCorrect = true;
+                                                        resultMessage = `
+                                                            <p style="font-size: 1.1rem; margin-bottom: 1rem;">You made the perfect decision! Reporting phishing emails is the best way to protect yourself and your organization.</p>
+                                                            <div style="background: rgba(0, 255, 136, 0.1); padding: 1rem; border-radius: 10px; border: 1px solid rgba(0, 255, 136, 0.3); margin: 1rem 0;">
+                                                                <h4 style="color: var(--success); margin-bottom: 0.5rem;">✅ Why This Is The Best Action:</h4>
+                                                                <ul style="color: var(--text-dim); padding-left: 1.5rem; line-height: 1.8;">
+                                                                    <li>Security team can investigate and block the threat</li>
+                                                                    <li>Other employees are warned about the attack</li>
+                                                                    <li>Helps identify patterns in phishing campaigns</li>
+                                                                    <li>Contributes to organizational security</li>
+                                                                </ul>
+                                                            </div>
+                                                            <p style="color: var(--success); font-weight: 600;">🏆 You're now a CyberShield Defender!</p>
+                                                        `;
+                                                        break;
+
+                                                    case 'verify':
+                                                        actionScore = 75;
+                                                        resultTitle = '👍 Good Approach!';
+                                                        resultIcon = 'success';
+                                                        isCorrect = true;
+                                                        resultMessage = `
+                                                            <p style="font-size: 1.1rem; margin-bottom: 1rem;">Calling your bank directly is a smart way to verify suspicious communications!</p>
+                                                            <div style="background: rgba(0, 245, 255, 0.1); padding: 1rem; border-radius: 10px; border: 1px solid rgba(0, 245, 255, 0.3); margin: 1rem 0;">
+                                                                <h4 style="color: var(--primary); margin-bottom: 0.5rem;">✅ Why This Works:</h4>
+                                                                <ul style="color: var(--text-dim); padding-left: 1.5rem; line-height: 1.8;">
+                                                                    <li>Verifies legitimacy through official channels</li>
+                                                                    <li>Avoids clicking suspicious links</li>
+                                                                    <li>Confirms if action is truly needed</li>
+                                                                    <li>Shows security awareness</li>
+                                                                </ul>
+                                                            </div>
+                                                            <p style="color: var(--text-dim);">💡 Pro tip: Also report the email to your security team for analysis!</p>
+                                                        `;
+                                                        break;
+                                                }
+
+                                                score += actionScore + timeBonus;
+                                                score = Math.max(0, score);
+
+                                                // Show results
+                                                setTimeout(() => {
+                                                    showResultsPage(resultTitle, resultIcon, resultMessage, actionScore, timeBonus, isCorrect);
+                                                }, 500);
+                                            }
+
+                                            // Show results page
+                                            function showResultsPage(title, icon, message, actionScore, timeBonus, isCorrect) {
+                                                currentStep = 4;
+                                                document.getElementById('step3').classList.remove('active');
+                                                document.getElementById('step4').classList.add('active');
+                                                updateProgress();
+
+                                                const resultsPanel = document.getElementById('resultsPanel');
+
+                                                const grade = score >= 150 ? 'A+' : score >= 100 ? 'A' : score >= 75 ? 'B' : score >= 50 ? 'C' : 'D';
+                                                const gradeColor = score >= 100 ? 'var(--success)' : score >= 75 ? 'var(--primary)' : 'var(--warning)';
+
+                                                resultsPanel.innerHTML = `
+                                                    <div style="text-align: center; padding: 2rem;">
+                                                        <div class="modal-icon ${isCorrect ? 'success' : 'error'}" style="position: relative; margin: 0 auto 2rem;">
+                                                            ${icon === 'success' ? '✓' : '✗'}
+                                                        </div>
+                                                        <h2 style="font-size: 2.5rem; margin-bottom: 1rem;">${title}</h2>
+
+                                                        <div class="score-display" style="margin: 2rem 0;">
+                                                            <div style="color: var(--text-dim); font-size: 1rem; margin-bottom: 0.5rem;">FINAL SCORE</div>
+                                                            <div class="score-value">${score}</div>
+                                                            <div style="color: var(--text-dim); font-size: 1rem; margin-top: 0.5rem;">Grade: <span style="color: ${gradeColor}; font-weight: 700; font-size: 1.5rem;">${grade}</span></div>
+                                                        </div>
+
+                                                        ${message}
+
+                                                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1rem; margin: 2rem 0;">
+                                                            <div style="background: rgba(0, 245, 255, 0.1); padding: 1.5rem; border-radius: 15px; border: 1px solid rgba(0, 245, 255, 0.3);">
+                                                                <div style="color: var(--text-dim); font-size: 0.9rem;">Learning Points</div>
+                                                                <div style="font-size: 2rem; font-weight: 700; color: var(--primary); margin: 0.5rem 0;">25</div>
+                                                                <div style="color: var(--text-dim); font-size: 0.8rem;">From identification</div>
+                                                            </div>
+                                                            <div style="background: rgba(181, 55, 242, 0.1); padding: 1.5rem; border-radius: 15px; border: 1px solid rgba(181, 55, 242, 0.3);">
+                                                                <div style="color: var(--text-dim); font-size: 0.9rem;">Action Points</div>
+                                                                <div style="font-size: 2rem; font-weight: 700; color: ${actionScore > 0 ? 'var(--success)' : 'var(--danger)'}; margin: 0.5rem 0;">${actionScore > 0 ? '+' : ''}${actionScore}</div>
+                                                                <div style="color: var(--text-dim); font-size: 0.8rem;">Decision quality</div>
+                                                            </div>
+                                                            <div style="background: rgba(0, 255, 136, 0.1); padding: 1.5rem; border-radius: 15px; border: 1px solid rgba(0, 255, 136, 0.3);">
+                                                                <div style="color: var(--text-dim); font-size: 0.9rem;">Time Bonus</div>
+                                                                <div style="font-size: 2rem; font-weight: 700; color: var(--success); margin: 0.5rem 0;">+${timeBonus}</div>
+                                                                <div style="color: var(--text-dim); font-size: 0.8rem;">Speed reward</div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div style="background: rgba(255, 255, 255, 0.05); padding: 2rem; border-radius: 15px; border: 1px solid rgba(255, 255, 255, 0.1); margin-top: 2rem;">
+                                                            <h3 style="color: var(--primary); margin-bottom: 1rem;">🎓 Key Takeaways</h3>
+                                                            <ul style="text-align: left; color: var(--text-dim); line-height: 2; list-style: none; padding: 0;">
+                                                                <li>✅ Always verify sender email addresses</li>
+                                                                <li>✅ Be suspicious of urgent or threatening language</li>
+                                                                <li>✅ Hover over links to check real URLs</li>
+                                                                <li>✅ Report suspicious emails to your security team</li>
+                                                                <li>✅ When in doubt, contact the organization directly</li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                `;
+
+                                                window.scrollTo({ top: 0, behavior: 'smooth' });
+                                            }
+
+                                            // Certificate display
+                                            function showCertificate() {
+                                                const date = new Date().toLocaleDateString('en-US', { 
+                                                    year: 'numeric', 
+                                                    month: 'long', 
+                                                    day: 'numeric' 
+                                                });
+
+                                                showModal(
+                                                    '🏆 Certificate of Completion',
+                                                    'success',
+                                                    `
+                                                    <div style="text-align: center; padding: 2rem; background: linear-gradient(135deg, rgba(0, 245, 255, 0.1), rgba(181, 55, 242, 0.1)); border-radius: 15px; border: 2px solid rgba(0, 245, 255, 0.3);">
+                                                        <h3 style="font-size: 2rem; margin-bottom: 1rem; color: var(--primary);">CYBERSHIELD 3D</h3>
+                                                        <p style="font-size: 1.2rem; margin-bottom: 2rem;">Fraud Detection Training</p>
+
+                                                        <div style="margin: 2rem 0; padding: 2rem; background: rgba(0, 0, 0, 0.3); border-radius: 10px;">
+                                                            <p style="color: var(--text-dim); margin-bottom: 0.5rem;">This certifies that</p>
+                                                            <h2 style="font-size: 2.5rem; margin: 1rem 0; background: linear-gradient(135deg, var(--primary), var(--secondary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
+                                                                CyberShield Trainee
+                                                            </h2>
+                                                            <p style="color: var(--text-dim);">has successfully completed</p>
+                                                            <h3 style="font-size: 1.5rem; margin: 1rem 0;">Phishing Detection & Response Training</h3>
+                                                            <p style="color: var(--text-dim); margin-top: 2rem;">Final Score: <span style="color: var(--success); font-weight: 700; font-size: 1.5rem;">${score}</span></p>
+                                                        </div>
+
+                                                        <p style="color: var(--text-dim); font-size: 0.9rem;">${date}</p>
+                                                        <p style="color: var(--text-dim); font-size: 0.8rem; margin-top: 1rem;">Certificate ID: CS3D-${Date.now().toString(36).toUpperCase()}</p>
+                                                    </div>
+                                                    `
+                                                );
+                                            }
+
+                                            // Modal functions
+                                            function showModal(title, type, content) {
+                                                const modal = document.getElementById('modal');
+                                                const modalIcon = document.getElementById('modalIcon');
+                                                const modalTitle = document.getElementById('modalTitle');
+                                                const modalBody = document.getElementById('modalBody');
+
+                                                modalIcon.className = `modal-icon ${type}`;
+                                                modalIcon.textContent = type === 'success' ? '✓' : '✗';
+                                                modalTitle.textContent = title;
+                                                modalBody.innerHTML = content;
+
+                                                modal.classList.add('active');
+                                            }
+
+                                            function closeModal() {
+                                                document.getElementById('modal').classList.remove('active');
+                                            }
+
+                                            // Toast notification
+                                            function showToast(message, type = 'info') {
+                                                const toast = document.getElementById('toast');
+                                                const toastIcon = toast.querySelector('.toast-icon');
+                                                const toastMessage = document.getElementById('toastMessage');
+
+                                                toast.className = `toast ${type}`;
+                                                toastIcon.textContent = type === 'success' ? '✓' : type === 'error' ? '✗' : 'ℹ️';
+                                                toastMessage.textContent = message;
+
+                                                toast.classList.add('show');
+
+                                                setTimeout(() => {
+                                                    toast.classList.remove('show');
+                                                }, 3000);
+                                            }
+
+                                            // Close modal on outside click
+                                            document.getElementById('modal').addEventListener('click', (e) => {
+                                                if (e.target.id === 'modal') {
+                                                    closeModal();
+                                                }
+                                            });
+
+                                            // Keyboard shortcuts
+                                            document.addEventListener('keydown', (e) => {
+                                                if (e.key === 'Escape') {
+                                                    closeModal();
+                                                }
+                                            });
+                                        </script>
+                                        </body>
+                                        </html>
