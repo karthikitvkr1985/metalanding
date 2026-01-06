@@ -1,0 +1,2643 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Instagram 2026 - Next-Gen Social Experience</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #E1306C;
+            --gradient: linear-gradient(135deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+            --gradient-horizontal: linear-gradient(90deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+            --gradient-dark: linear-gradient(135deg, #121212 0%, #1a1a1a 25%, #262626 50%, #1a1a1a 75%, #121212 100%);
+            --bg-primary: #0a0a0a;
+            --bg-secondary: #111111;
+            --bg-tertiary: #1c1c1c;
+            --bg-card: #151515;
+            --text-primary: #ffffff;
+            --text-secondary: #b0b0b0;
+            --text-muted: #888888;
+            --border: #2a2a2a;
+            --border-light: #333333;
+            --blue: #0095f6;
+            --blue-light: #00c3ff;
+            --success: #00ba7c;
+            --warning: #ffa500;
+            --danger: #ff3040;
+            --hover: rgba(255,255,255,0.05);
+            --hover-light: rgba(255,255,255,0.08);
+            --card-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            --glass: rgba(18, 18, 18, 0.7);
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --transition-fast: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-smooth: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            --radius-sm: 12px;
+            --radius-md: 16px;
+            --radius-lg: 24px;
+            --radius-xl: 32px;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 10px;
+            height: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--bg-primary);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--border);
+            border-radius: 5px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--border-light);
+        }
+
+        /* Main Layout */
+        .container {
+            display: flex;
+            min-height: 100vh;
+            max-width: 1920px;
+            margin: 0 auto;
+            background: var(--bg-primary);
+        }
+
+        /* Sidebar - Enhanced */
+        .sidebar {
+            width: 280px;
+            background: var(--bg-primary);
+            border-right: 1px solid var(--border);
+            padding: 20px 0;
+            display: flex;
+            flex-direction: column;
+            position: fixed;
+            height: 100vh;
+            left: 0;
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+            background: rgba(10, 10, 10, 0.95);
+        }
+
+        .logo-container {
+            padding: 20px 24px 40px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .logo-container::after {
+            content: '';
+            position: absolute;
+            bottom: 30px;
+            left: 24px;
+            right: 24px;
+            height: 1px;
+            background: var(--gradient-horizontal);
+            opacity: 0.3;
+        }
+
+        .logo-icon {
+            width: 46px;
+            height: 46px;
+            background: var(--gradient);
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            box-shadow: 0 8px 32px rgba(225, 48, 108, 0.4);
+            transition: var(--transition-fast);
+        }
+
+        .logo-container:hover .logo-icon {
+            transform: rotate(15deg) scale(1.1);
+            box-shadow: 0 12px 40px rgba(225, 48, 108, 0.6);
+        }
+
+        .logo-text {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .logo-name {
+            font-size: 26px;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .logo-year {
+            font-size: 11px;
+            color: var(--text-secondary);
+            font-weight: 600;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .nav-menu {
+            flex: 1;
+            padding: 0 12px;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 10px 16px;
+            margin: 8px 0;
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            transition: var(--transition-fast);
+            text-decoration: none;
+            color: var(--text-primary);
+            font-size: 15px;
+            font-weight: 500;
+            position: relative;
+            backdrop-filter: blur(10px);
+            background: transparent;
+        }
+
+        .nav-item:hover {
+            background: var(--hover);
+            transform: translateX(4px);
+        }
+
+        .nav-item.active {
+            background: linear-gradient(90deg, rgba(225, 48, 108, 0.15), rgba(0, 149, 246, 0.15));
+            border-left: 4px solid var(--primary);
+            font-weight: 600;
+        }
+
+        .nav-icon {
+            font-size: 24px;
+            width: 24px;
+            text-align: center;
+        }
+
+        .nav-badge {
+            position: absolute;
+            right: 16px;
+            background: var(--primary);
+            color: white;
+            font-size: 11px;
+            padding: 3px 8px;
+            border-radius: 20px;
+            font-weight: 700;
+            min-width: 20px;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(225, 48, 108, 0.4);
+        }
+
+        .new-feature-badge {
+            position: absolute;
+            right: 16px;
+            background: var(--success);
+            color: white;
+            font-size: 9px;
+            padding: 2px 6px;
+            border-radius: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .create-button {
+            margin: 20px 12px;
+            padding: 16px;
+            background: var(--gradient);
+            border: none;
+            border-radius: var(--radius-md);
+            color: white;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+            box-shadow: 0 8px 32px rgba(225, 48, 108, 0.4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .create-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: 0.5s;
+        }
+
+        .create-button:hover::before {
+            left: 100%;
+        }
+
+        .create-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 40px rgba(225, 48, 108, 0.6);
+        }
+
+        .create-button:active {
+            transform: translateY(0);
+        }
+
+        /* Main Content Area */
+        .main-content {
+            margin-left: 280px;
+            flex: 1;
+            display: flex;
+            overflow: hidden;
+            background: var(--bg-primary);
+            gap: 0;
+        }
+
+        /* Enhanced Profile Page */
+        .profile-container {
+            width: 100%;
+            padding: 0;
+            position: relative;
+        }
+
+        .profile-header {
+            position: relative;
+            padding: 40px 20px 30px;
+            
+            border-bottom: 1px solid var(--border);
+            backdrop-filter: blur(20px);
+        }
+
+        .profile-header-content {
+            display: flex;
+            gap: 50px;
+            min-width: 495px;
+            overflow-x: scroll;
+            margin: 0 auto;
+        }
+
+        .profile-avatar-container {
+            position: relative;
+            width: 170px;
+            height: 170px;
+            flex-shrink: 0;
+        }
+
+        .profile-avatar-ring {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: var(--gradient);
+            padding: 5px;
+            position: relative;
+            box-shadow: 0 12px 40px rgba(225, 48, 108, 0.3);
+            animation: pulse 4s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+        }
+
+        .profile-avatar {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: var(--bg-tertiary);
+            border: 5px solid var(--bg-primary);
+            overflow: hidden;
+            position: relative;
+        }
+
+        .profile-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .profile-status {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            width: 24px;
+            height: 24px;
+            background: var(--success);
+            border-radius: 50%;
+            border: 3px solid var(--bg-primary);
+            z-index: 2;
+        }
+
+        .profile-info {
+            flex: 1;
+            padding-top: 10px;
+        }
+
+        .profile-info-header {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .profile-username {
+            font-size: 28px;
+            font-weight: 300;
+            color: var(--text-primary);
+        }
+
+        .profile-actions {
+            display: flex;
+            gap: 12px;
+        }
+
+        .profile-btn {
+            padding: 10px 24px;
+            border-radius: var(--radius-md);
+            border: none;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            transition: var(--transition-fast);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .profile-btn-primary {
+            background: var(--gradient);
+            color: white;
+            box-shadow: 0 4px 16px rgba(225, 48, 108, 0.3);
+        }
+
+        .profile-btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(225, 48, 108, 0.4);
+        }
+
+        .profile-btn-secondary {
+            background: var(--bg-tertiary);
+            color: var(--text-primary);
+            border: 1px solid var(--border);
+        }
+
+        .profile-btn-secondary:hover {
+            background: var(--hover);
+            border-color: var(--text-secondary);
+        }
+
+        .profile-stats {
+            display: flex;
+            gap: 40px;
+            margin-bottom: 20px;
+        }
+
+        .stat-item {
+            cursor: pointer;
+            text-align: center;
+            transition: var(--transition-fast);
+            padding: 8px 12px;
+            border-radius: var(--radius-md);
+        }
+
+        .stat-item:hover {
+            background: var(--hover);
+        }
+
+        .stat-value {
+            font-size: 20px;
+            font-weight: 700;
+            display: block;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .stat-label {
+            font-size: 14px;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        .profile-bio {
+            margin-top: 20px;
+            line-height: 1.6;
+        }
+
+        .profile-name {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .profile-bio-text {
+            font-size: 14px;
+            color: var(--text-primary);
+            margin-bottom: 12px;
+        }
+
+        .profile-website {
+            color: var(--blue);
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .profile-website:hover {
+            color: var(--blue-light);
+        }
+
+        .profile-features {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+
+        .feature-tag {
+            background: rgba(0, 149, 246, 0.1);
+            color: var(--blue);
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            border: 1px solid rgba(0, 149, 246, 0.3);
+        }
+
+        .feature-tag.new {
+            background: rgba(0, 186, 124, 0.1);
+            color: var(--success);
+            border-color: rgba(0, 186, 124, 0.3);
+        }
+
+        .profile-tabs {
+            background: var(--bg-primary);
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(20px);
+            background: rgba(10, 10, 10, 0.95);
+            
+        }
+
+        .profile-tabs-container {
+            max-width: 935px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .profile-tab {
+            padding: 20px 0;
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            cursor: pointer;
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: var(--transition-fast);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .profile-tab:hover {
+            color: var(--text-primary);
+        }
+
+        .profile-tab.active {
+            color: var(--text-primary);
+        }
+
+        .profile-tab.active::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: var(--gradient);
+            border-radius: 2px;
+        }
+
+        .profile-content {
+            max-width: 935px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+
+        .profile-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 28px;
+        }
+
+        .grid-item {
+            aspect-ratio: 1/1;
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            position: relative;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+            background: var(--bg-tertiary);
+            
+        }
+
+        .grid-item:hover {
+            transform: scale(1.03);
+            border-color: var(--text-secondary);
+            box-shadow: var(--card-shadow);
+        }
+
+        .grid-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: var(--transition-smooth);
+        }
+
+        .grid-item:hover img {
+            transform: scale(1.1);
+        }
+
+        .grid-item-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 30px;
+            opacity: 0;
+            transition: var(--transition-fast);
+        }
+
+        .grid-item:hover .grid-item-overlay {
+            opacity: 1;
+        }
+
+        .grid-stats {
+            color: white;
+            text-align: center;
+        }
+
+        .grid-stat-value {
+            font-size: 20px;
+            font-weight: 700;
+            display: block;
+        }
+
+        .grid-stat-label {
+            font-size: 12px;
+            opacity: 0.9;
+        }
+
+        .post-likes {
+            padding: 0 20px;
+            font-size: 15px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            cursor: pointer;
+        }
+
+        .post-caption {
+            padding: 0 20px;
+            font-size: 14px;
+            line-height: 1.5;
+            margin-bottom: 8px;
+        }
+
+        .post-caption .username {
+            font-weight: 600;
+            margin-right: 6px;
+            cursor: pointer;
+        }
+
+        .post-comments {
+            padding: 0 20px;
+            font-size: 14px;
+            color: var(--text-secondary);
+            cursor: pointer;
+            margin-bottom: 8px;
+        }
+
+        .post-time {
+            padding: 0 20px 16px 20px;
+            font-size: 12px;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+        }
+
+        /* Enhanced Feed Cards */
+        .post-card {
+            background: var(--bg-card);
+            border-radius: var(--radius-lg);
+            margin: 0 auto 32px auto;
+            overflow: hidden;
+            transition: var(--transition-smooth);
+            
+            position: relative;
+            max-width: 100%;
+            padding-right: 0%;
+       
+            
+           
+        }
+
+        .post-card:hover {
+            border-color: var(--text-secondary);
+            transform: translateY(-4px);
+            box-shadow: var(--card-shadow);
+        }
+
+        .post-card.new-feature::before {
+            content: 'NEW';
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            background: var(--success);
+            color: white;
+            font-size: 10px;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-weight: 700;
+            z-index: 2;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .post-header {
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .post-user {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            cursor: pointer;
+        }
+
+        .post-avatar {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: var(--gradient);
+            padding: 2px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .post-avatar-inner {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--bg-tertiary);
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .post-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .post-info {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .post-username {
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .post-location {
+            font-size: 13px;
+            color: var(--text-secondary);
+        }
+
+        .post-image {
+            width: 100%;
+            aspect-ratio: 1/1;
+            background: var(--bg-tertiary);
+            overflow: hidden;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .post-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: var(--transition-smooth);
+        }
+
+        .post-image:hover img {
+            transform: scale(1.05);
+        }
+
+        .post-actions {
+            padding: 16px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .action-left {
+            display: flex;
+            gap: 20px;
+        }
+
+        .action-btn {
+            background: none;
+            border: none;
+            color: var(--text-primary);
+            font-size: 26px;
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 8px;
+            transition: var(--transition-fast);
+            position: relative;
+        }
+
+        .action-btn:hover {
+            background: var(--hover);
+            transform: scale(1.1);
+        }
+
+        .action-btn.liked {
+            color: var(--danger);
+        }
+
+        .action-btn.saved {
+            color: var(--warning);
+        }
+
+        .action-btn.bookmarked {
+            color: var(--blue);
+        }
+
+        /* Enhanced Right Sidebar */
+        .right-sidebar {
+            width: 380px;
+            padding: 24px;
+            overflow-y: auto;
+            border-left: 1px solid var(--border);
+            background: rgba(10, 10, 10, 0.95);
+            backdrop-filter: blur(20px);
+            flex-shrink: 0;
+        }
+
+        .user-profile-widget {
+            background: var(--bg-card);
+            border-radius: var(--radius-lg);
+            padding: 20px;
+            margin-bottom: 24px;
+            border: 1px solid var(--border);
+            transition: var(--transition-fast);
+        }
+
+        .user-profile-widget:hover {
+            border-color: var(--text-secondary);
+            transform: translateY(-2px);
+        }
+
+        /* Enhanced Modals */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 10000;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(10px);
+            padding: 20px;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: var(--bg-card);
+            border-radius: var(--radius-xl);
+            padding: 40px;
+            max-width: 500px;
+            width: 100%;
+            max-height: 85vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+            border: 1px solid var(--border-light);
+            animation: modalSlideIn 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        @keyframes modalSlideIn {
+            from {
+                opacity: 0;
+                transform: translateY(40px) scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        /* Progress Bar */
+        .progress-bar {
+            height: 4px;
+            background: var(--border);
+            border-radius: 2px;
+            overflow: hidden;
+            margin: 20px 0;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: var(--gradient);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        /* Notifications */
+        .notification-item {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 20px;
+            background: var(--bg-card);
+            border-radius: var(--radius-md);
+            margin-bottom: 12px;
+            cursor: pointer;
+            transition: var(--transition-fast);
+            border: 1px solid var(--border);
+            position: relative;
+        }
+
+        .notification-item:hover {
+            background: var(--hover);
+            transform: translateX(4px);
+        }
+
+        .notification-item.unread::after {
+            content: '';
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 8px;
+            height: 8px;
+            background: var(--blue);
+            border-radius: 50%;
+        }
+
+        /* Messages */
+        .message-item {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 20px;
+            background: var(--bg-card);
+            border-radius: var(--radius-md);
+            margin-bottom: 12px;
+            cursor: pointer;
+            transition: var(--transition-fast);
+            border: 1px solid var(--border);
+        }
+
+        .message-item:hover {
+            background: var(--hover);
+            transform: translateX(4px);
+        }
+
+        .message-item.active {
+            background: rgba(0, 149, 246, 0.1);
+            border-color: var(--blue);
+        }
+
+        /* Feed Chips */
+        .feed-chip {
+            padding: 10px 24px;
+            border-radius: 30px;
+            border: 1px solid var(--border);
+            background: var(--bg-card);
+            color: var(--text-secondary);
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition-fast);
+            white-space: nowrap;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .feed-chip:hover {
+            background: var(--hover);
+            transform: translateY(-2px);
+        }
+
+        .feed-chip.active {
+            background: var(--gradient);
+            color: white;
+            border-color: transparent;
+            box-shadow: 0 4px 16px rgba(225, 48, 108, 0.3);
+        }
+
+        /* Stories */
+        .story-ring {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: var(--gradient);
+            padding: 3px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition-fast);
+            position: relative;
+        }
+
+        .story-ring::before {
+            content: '';
+            position: absolute;
+            top: -3px;
+            left: -3px;
+            right: -3px;
+            bottom: -3px;
+            border-radius: 50%;
+            background: var(--gradient);
+            z-index: -1;
+            opacity: 0;
+            transition: var(--transition-fast);
+        }
+
+        .story-item:hover .story-ring::before {
+            opacity: 1;
+            transform: scale(1.1);
+        }
+
+        .story-ring.seen {
+            background: var(--border);
+        }
+
+        /* Responsive */
+        @media (max-width: 1440px) {
+            .right-sidebar {
+                width: 340px;
+            }
+        }
+
+        @media (max-width: 1200px) {
+            .right-sidebar {
+                display: none;
+            }
+            /* Feed Section */
+            .feed-section {
+                width: 100%;
+                margin: 0;
+                padding: 0 5px 0 5px;
+                overflow-y: auto;
+                flex: 1;
+            } 
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 80px;
+            }
+            .main-content {
+                margin-left: 80px;
+            }
+            .logo-text, .nav-text {
+                display: none;
+            }
+            .nav-item {
+                justify-content: center;
+            }
+            .create-button span:not(.create-button-icon) {
+                display: none;
+            }
+            .profile-header-content {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+                gap: 30px;
+            }
+            .profile-info-header {
+                justify-content: center;
+            }
+            .profile-stats {
+                justify-content: center;
+            }
+            .profile-tabs-container {
+                gap: 20px;
+            }
+        }
+
+        /* Toast Notifications */
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            padding: 16px 24px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            z-index: 10001;
+            transform: translateY(100px);
+            opacity: 0;
+            transition: var(--transition-smooth);
+        }
+
+        .toast.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .toast.success {
+            border-left: 4px solid var(--success);
+        }
+
+        .toast.info {
+            border-left: 4px solid var(--blue);
+        }
+
+        /* Loading Animation */
+        .loader {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid var(--border);
+            border-top: 3px solid var(--blue);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Left Sidebar -->
+        <aside class="sidebar">
+            <div class="logo-container" onclick="navigateTo('home')">
+                <div class="logo-icon">
+                    <i class="fas fa-camera"></i>
+                </div>
+                <div class="logo-text">
+                    <div class="logo-name">InstaNext</div>
+                    <div class="logo-year">PRO 2026</div>
+                </div>
+            </div>
+
+            <nav class="nav-menu">
+                <a href="#" class="nav-item active" onclick="navigateTo('home'); return false;">
+                    <span class="nav-icon"><i class="fas fa-home"></i></span>
+                    <span class="nav-text">Home</span>
+                </a>
+                <a href="#" class="nav-item" onclick="navigateTo('explore'); return false;">
+                    <span class="nav-icon"><i class="fas fa-search"></i></span>
+                    <span class="nav-text">Explore</span>
+                </a>
+                <a href="#" class="nav-item" onclick="navigateTo('reels'); return false;">
+                    <span class="nav-icon"><i class="fas fa-play-circle"></i></span>
+                    <span class="nav-text">Reels</span>
+                    <span class="new-feature-badge">New</span>
+                </a>
+                <a href="#" class="nav-item" onclick="navigateTo('messages'); return false;">
+                    <span class="nav-icon"><i class="fas fa-comment-alt"></i></span>
+                    <span class="nav-text">Messages</span>
+                    <span class="nav-badge">5</span>
+                </a>
+                <a href="#" class="nav-item" onclick="navigateTo('notifications'); return false;">
+                    <span class="nav-icon"><i class="fas fa-bell"></i></span>
+                    <span class="nav-text">Notifications</span>
+                    <span class="nav-badge">12</span>
+                </a>
+                <a href="#" class="nav-item" onclick="navigateTo('profile'); return false;">
+                    <span class="nav-icon"><i class="fas fa-user"></i></span>
+                    <span class="nav-text">Profile</span>
+                </a>
+                <a href="#" class="nav-item" onclick="showAlgoDashboard(); return false;">
+                    <span class="nav-icon"><i class="fas fa-sliders-h"></i></span>
+                    <span class="nav-text">AI Feed Control</span>
+                    <span class="new-feature-badge">New</span>
+                </a>
+                <a href="#" class="nav-item" onclick="showMoodFilter(); return false;">
+                    <span class="nav-icon"><i class="fas fa-palette"></i></span>
+                    <span class="nav-text">Mood Filter</span>
+                    <span class="new-feature-badge">New</span>
+                </a>
+                <a href="#" class="nav-item" onclick="showCollabMode(); return false;">
+                    <span class="nav-icon"><i class="fas fa-users"></i></span>
+                    <span class="nav-text">Collab Mode</span>
+                    <span class="new-feature-badge">Beta</span>
+                </a>
+            </nav>
+
+            <button class="create-button" onclick="showCreateModal()">
+                <span class="create-button-icon"><i class="fas fa-plus"></i></span>
+                <span class="create-button-text"> Create Post</span>
+            </button>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Feed Section -->
+            <section class="feed-section" id="feedSection">
+                <!-- Feed Header -->
+                <div class="feed-header" style="padding: 24px 10px 16px 10px; min-width:400px; width:600px; overflow-x:scroll; ">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                        <h2 style="font-size: 24px; font-weight: 700;">Your Feed</h2>
+                        <div class="feed-chip" onclick="toggleSmartSort()">
+                            <i class="fas fa-robot"></i> Smart Sort
+                        </div>
+                    </div>
+                    <div style="display: flex; gap: 12px; overflow-x: scroll; padding-bottom: 10px;">
+                        <div class="feed-chip active" onclick="toggleFeed(this, 'all')">
+                            <i class="fas fa-globe"></i> All
+                        </div>
+                        <div class="feed-chip" onclick="toggleFeed(this, 'friends')">
+                            <i class="fas fa-user-friends"></i> Friends
+                        </div>
+                        <div class="feed-chip" onclick="toggleFeed(this, 'family')">
+                            <i class="fas fa-home"></i> Family
+                        </div>
+                        
+                        <div class="feed-chip" onclick="toggleFeed(this, 'ai')">
+                            <i class="fas fa-brain"></i> AI Picks
+                            <span class="new-feature-badge" style="margin-left: 4px;">New</span>
+                        </div>
+                        <div class="feed-chip" onclick="toggleFeed(this, 'mood')">
+                            <i class="fas fa-smile"></i> Mood Match
+                            <span class="new-feature-badge" style="margin-left: 4px;">New</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Stories -->
+                <div class="stories-container" style="padding: 0 0 32px; display: flex; gap: 24px; overflow-x: auto;">
+                    <div class="story-item" onclick="createStory()">
+                        <div class="story-ring">
+                            <div class="story-avatar" style="background: var(--bg-tertiary); width: 74px; height: 74px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 24px; color: white;">
+                                <i class="fas fa-plus"></i>
+                            </div>
+                        </div>
+                        <div class="story-name">Your story</div>
+                    </div>
+                    <!-- Stories will be dynamically loaded -->
+                </div>
+
+                <!-- Feed Posts -->
+                <div id="feedPosts">
+                    <!-- Posts will be dynamically loaded -->
+                </div>
+
+                <!-- Loading More -->
+                <div id="loadingMore" style="text-align: center; padding: 40px; display: none;">
+                    <div class="loader" style="margin: 0 auto;"></div>
+                    <div style="margin-top: 16px; color: var(--text-secondary);">Loading more posts...</div>
+                </div>
+            </section>
+
+            <!-- Notifications Section -->
+            <section class="feed-section" id="notificationsSection" style="display: none; padding: 24px;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
+                    <h2 style="font-size: 24px; font-weight: 700;">Notifications</h2>
+                    <div class="feed-chip" onclick="markAllAsRead()">
+                        <i class="fas fa-check-double"></i> Mark all as read
+                    </div>
+                </div>
+                <div class="notification-list" id="notificationList">
+                    <!-- Notifications will be dynamically loaded -->
+                </div>
+            </section>
+
+            <!-- Messages Section -->
+            <section class="feed-section" id="messagesSection" style="display: none; padding: 0;">
+                <div class="messages-container" style="display: flex; height: 100%;">
+                    <div class="messages-list" style="width: 380px; border-right: 1px solid var(--border); overflow-y: auto; padding: 20px;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
+                            <h2 style="font-size: 24px; font-weight: 700;">Messages</h2>
+                            <div class="feed-chip" onclick="startNewChat()">
+                                <i class="fas fa-edit"></i> New
+                            </div>
+                        </div>
+                        <div id="messageThreads">
+                            <!-- Message threads will be dynamically loaded -->
+                        </div>
+                    </div>
+                    <div class="message-content" id="activeChat" style="flex: 1; display: flex; flex-direction: column; background: var(--bg-primary);">
+                        <div style="text-align: center; padding: 100px 20px; color: var(--text-secondary);">
+                            <i class="fas fa-comments" style="font-size: 64px; margin-bottom: 20px; opacity: 0.5;"></i>
+                            <h3 style="font-size: 20px; margin-bottom: 10px;">Select a conversation</h3>
+                            <p>Choose a chat from the list to start messaging</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Profile Section -->
+            <section class="feed-section" id="profileSection" style="display: none; overflow-y: auto;">
+                <div class="profile-container">
+                    <!-- Profile Header -->
+                    <div class="profile-header">
+                        <div class="profile-header-content">
+                            <div class="profile-avatar-container">
+                                <div class="profile-avatar-ring">
+                                    <div class="profile-avatar">
+                                        <img src="https://media.licdn.com/dms/image/v2/C5103AQG3zlK4hE7NQw/profile-displayphoto-shrink_400_400/profile-displayphoto-shrink_400_400/0/1555160728975?e=1769040000&v=beta&t=LRcBu0WSrenT6_fRjDxpRgqAcE7QKSVq_SpTQRfa7ys" alt="Profile">
+                                    </div>
+                                </div>
+                                <div class="profile-status"></div>
+                            </div>
+
+                            <div class="profile-info">
+                                <div class="profile-info-header">
+                                    <h1 class="profile-username">Karthik Venkataramani</h1>
+                                    <div class="profile-actions">
+                                        <button class="profile-btn profile-btn-primary" onclick="editProfile()">
+                                            <i class="fas fa-edit"></i> Edit Profile
+                                        </button>
+                                        <button class="profile-btn profile-btn-secondary" onclick="showProfileSettings()">
+                                            <i class="fas fa-cog"></i> Settings
+                                        </button>
+                                        <button class="profile-btn profile-btn-secondary" onclick="shareProfile()">
+                                            <i class="fas fa-share-alt"></i>
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div class="profile-stats">
+                                    <div class="stat-item" onclick="showStatsModal('posts')">
+                                        <span class="stat-value">142</span>
+                                        <span class="stat-label">Posts</span>
+                                    </div>
+                                    <div class="stat-item" onclick="showStatsModal('followers')">
+                                        <span class="stat-value">24.5K</span>
+                                        <span class="stat-label">Followers</span>
+                                    </div>
+                                    <div class="stat-item" onclick="showStatsModal('following')">
+                                        <span class="stat-value">1,284</span>
+                                        <span class="stat-label">Following</span>
+                                    </div>
+                                </div>
+
+                                <div class="profile-bio">
+                                    <div class="profile-name">Karthik Venkataramani</div>
+                                    <div class="profile-bio-text">
+                                        Head of UX  • Digital Creator • Photography Enthusiast<br>
+                                        Building the future of social experiences 🚀<br>
+                                        ✨ Featured: "Best UI Design 2025" Award Winner
+                                    </div>
+                                    <a href="https://www.linkedin.com/in/kartvenk" class="profile-website" target="_blank">
+                                        <i class="fas fa-link"></i> www.linkedin.com/in/kartvenk
+                                    </a>
+                                </div>
+
+                                <div class="profile-features">
+                                    <div class="feature-tag">
+                                        <i class="fas fa-check-circle"></i> Verified Designer
+                                    </div>
+                                    <div class="feature-tag new">
+                                        <i class="fas fa-bolt"></i> Early Adopter
+                                    </div>
+                                    <div class="feature-tag">
+                                        <i class="fas fa-trophy"></i> Pro Member
+                                    </div>
+                                    <div class="feature-tag new">
+                                        <i class="fas fa-robot"></i> AI Enhanced
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Profile Tabs -->
+                    <div class="profile-tabs">
+                        <div class="profile-tabs-container">
+                            <div class="profile-tab active" onclick="switchProfileTab('posts')">
+                                <i class="fas fa-th-large"></i> POSTS
+                            </div>
+                            <div class="profile-tab" onclick="switchProfileTab('reels')">
+                                <i class="fas fa-play-circle"></i> REELS
+                            </div>
+                            <div class="profile-tab" onclick="switchProfileTab('tagged')">
+                                <i class="fas fa-tag"></i> TAGGED
+                            </div>
+                            <div class="profile-tab" onclick="switchProfileTab('collections')">
+                                <i class="fas fa-bookmark"></i> COLLECTIONS
+                                <span class="new-feature-badge" style="margin-left: 6px;">New</span>
+                            </div>
+                            <div class="profile-tab" onclick="switchProfileTab('archive')">
+                                <i class="fas fa-archive"></i> ARCHIVE
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Profile Content -->
+                    <div class="profile-content">
+                        <div class="profile-grid" id="profileGrid">
+                            <!-- Posts will be dynamically loaded -->
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Explore Section -->
+            <section class="feed-section" id="exploreSection" style="display: none; overflow-y: auto;">
+                <div style="padding: 24px;">
+                    <div style="max-width: 800px; margin: 0 auto;">
+                        <div style="position: relative; margin-bottom: 32px;">
+                            <i class="fas fa-search" style="position: absolute; left: 20px; top: 50%; transform: translateY(-50%); color: var(--text-secondary);"></i>
+                            <input type="text" id="exploreSearch" placeholder="Search for creators, hashtags, or locations..." style="width: 100%; padding: 16px 20px 16px 56px; border-radius: var(--radius-lg); border: 1px solid var(--border); background: var(--bg-card); color: var(--text-primary); font-size: 16px; transition: var(--transition-fast);" onkeyup="handleExploreSearch(event)" onfocus="this.style.borderColor='var(--blue)'" onblur="this.style.borderColor='var(--border)'">
+                        </div>
+
+                        <div style="display: flex; gap: 12px; margin-bottom: 32px; overflow-x: auto; padding-bottom: 10px;">
+                            <div class="feed-chip active" onclick="toggleExploreFilter('all')">
+                                <i class="fas fa-fire"></i> Trending
+                            </div>
+                            <div class="feed-chip" onclick="toggleExploreFilter('reels')">
+                                <i class="fas fa-play-circle"></i> Reels
+                            </div>
+                            <div class="feed-chip" onclick="toggleExploreFilter('photos')">
+                                <i class="fas fa-camera"></i> Photos
+                            </div>
+                            <div class="feed-chip" onclick="toggleExploreFilter('videos')">
+                                <i class="fas fa-video"></i> Videos
+                            </div>
+                            <div class="feed-chip" onclick="toggleExploreFilter('creators')">
+                                <i class="fas fa-user-plus"></i> Creators
+                            </div>
+                            <div class="feed-chip new" onclick="toggleExploreFilter('ai')">
+                                <i class="fas fa-brain"></i> AI Generated
+                                <span class="new-feature-badge" style="margin-left: 4px;">New</span>
+                            </div>
+                        </div>
+
+                        <div class="profile-grid" id="exploreGrid" style="grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));">
+                            <!-- Explore content will be dynamically loaded -->
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Right Sidebar -->
+        <aside class="right-sidebar">
+            <!-- User Profile Widget -->
+            <div class="user-profile-widget" onclick="navigateTo('profile')">
+                <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 16px;">
+                    <div style="width: 56px; height: 56px; border-radius: 50%; background: var(--gradient); padding: 2px;">
+                        <div style="width: 52px; height: 52px; border-radius: 50%; background: var(--bg-tertiary); overflow: hidden;">
+                            <img src="https://media.licdn.com/dms/image/v2/C5103AQG3zlK4hE7NQw/profile-displayphoto-shrink_400_400/profile-displayphoto-shrink_400_400/0/1555160728975?e=1769040000&v=beta&t=LRcBu0WSrenT6_fRjDxpRgqAcE7QKSVq_SpTQRfa7ys" alt="Profile" style="width: 100%; height: 100%; object-fit: cover;">
+                        </div>
+                    </div>
+                    <div>
+                        <div style="font-size: 15px; font-weight: 600;">karthik</div>
+                        <div style="font-size: 13px; color: var(--text-secondary);">Karthik Venkataramani</div>
+                    </div>
+                </div>
+                <div style="display: flex; gap: 12px;">
+                    <div class="feature-tag" style="flex: 1; justify-content: center;">
+                        <i class="fas fa-rocket"></i> Pro
+                    </div>
+                    <div class="feature-tag new" style="flex: 1; justify-content: center;">
+                        <i class="fas fa-bolt"></i> 2026
+                    </div>
+                </div>
+            </div>
+
+            <!-- Suggestions -->
+            <div style="margin-bottom: 32px;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+                    <div style="font-size: 15px; font-weight: 600; color: var(--text-secondary);">Suggested for you</div>
+                    <a href="#" style="font-size: 13px; color: var(--blue); font-weight: 600; cursor: pointer;" onclick="showAllSuggestions()">See All</a>
+                </div>
+
+                <div id="suggestionsList">
+                    <!-- Suggestions will be dynamically loaded -->
+                </div>
+            </div>
+
+            <!-- New Features Panel -->
+            <div style="background: rgba(0, 149, 246, 0.05); border: 1px solid rgba(0, 149, 246, 0.2); border-radius: var(--radius-lg); padding: 20px; margin-bottom: 32px;">
+                <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 16px;">
+                    <i class="fas fa-star" style="color: var(--blue); font-size: 18px;"></i>
+                    <div style="font-size: 16px; font-weight: 700;">New in 2026</div>
+                </div>
+
+                <div style="display: flex; flex-direction: column; gap: 12px;">
+                    <div style="display: flex; align-items: center; gap: 10px;">
+                        <i class="fas fa-robot" style="color: var(--success);"></i>
+                        <div>
+                            <div style="font-size: 13px; font-weight: 600;">AI Feed Control</div>
+                            <div style="font-size: 11px; color: var(--text-secondary);">Customize your algorithm</div>
+                        </div>
+                    </div>
+
+                    <div style="display: flex; align-items: center; gap: 10px;">
+                        <i class="fas fa-palette" style="color: var(--primary);"></i>
+                        <div>
+                            <div style="font-size: 13px; font-weight: 600;">Mood Filter</div>
+                            <div style="font-size: 11px; color: var(--text-secondary);">Content based on your mood</div>
+                        </div>
+                    </div>
+
+                    <div style="display: flex; align-items: center; gap: 10px;">
+                        <i class="fas fa-users" style="color: var(--warning);"></i>
+                        <div>
+                            <div style="font-size: 13px; font-weight: 600;">Collab Mode</div>
+                            <div style="font-size: 11px; color: var(--text-secondary);">Create with friends</div>
+                        </div>
+                    </div>
+
+                    <div style="display: flex; align-items: center; gap: 10px;">
+                        <i class="fas fa-brain" style="color: var(--danger);"></i>
+                        <div>
+                            <div style="font-size: 13px; font-weight: 600;">AI Picks</div>
+                            <div style="font-size: 11px; color: var(--text-secondary);">Personalized content</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Footer Links -->
+            <div style="border-top: 1px solid var(--border); padding-top: 20px;">
+                <div style="display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 16px;">
+                    <a href="#" style="font-size: 12px; color: var(--text-secondary); text-decoration: none;">About</a>
+                    <a href="#" style="font-size: 12px; color: var(--text-secondary); text-decoration: none;">Help</a>
+                    <a href="#" style="font-size: 12px; color: var(--text-secondary); text-decoration: none;">Press</a>
+                    <a href="#" style="font-size: 12px; color: var(--text-secondary); text-decoration: none;">API</a>
+                    <a href="#" style="font-size: 12px; color: var(--text-secondary); text-decoration: none;">Jobs</a>
+                    <a href="#" style="font-size: 12px; color: var(--text-secondary); text-decoration: none;">Privacy</a>
+                    <a href="#" style="font-size: 12px; color: var(--text-secondary); text-decoration: none;">Terms</a>
+                </div>
+                <div style="font-size: 11px; color: var(--text-muted);">
+                    © 2026 InstaNext. All rights reserved.
+                </div>
+            </div>
+        </aside>
+    </div>
+
+    <!-- Create Modal -->
+    <div class="modal" id="createModal">
+        <div class="modal-content">
+            <div class="modal-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 32px; padding-bottom: 20px; border-bottom: 1px solid var(--border);">
+                <div style="font-size: 24px; font-weight: 700;">Create New</div>
+                <button class="modal-close" onclick="closeModal('createModal')" style="background: var(--bg-tertiary); border: none; color: var(--text-primary); font-size: 20px; cursor: pointer; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; transition: var(--transition-fast);">&times;</button>
+            </div>
+
+            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px;">
+                <div class="modal-option" onclick="createContent('post')" style="padding: 30px 20px; background: var(--bg-tertiary); border-radius: var(--radius-lg); text-align: center; cursor: pointer; transition: var(--transition-fast); border: 2px solid transparent;">
+                    <div style="font-size: 40px; margin-bottom: 16px; color: var(--primary);">
+                        <i class="fas fa-camera"></i>
+                    </div>
+                    <div style="font-size: 16px; font-weight: 600; margin-bottom: 8px;">Post</div>
+                    <div style="font-size: 13px; color: var(--text-secondary);">Share a photo or video</div>
+                </div>
+
+                <div class="modal-option" onclick="createContent('story')" style="padding: 30px 20px; background: var(--bg-tertiary); border-radius: var(--radius-lg); text-align: center; cursor: pointer; transition: var(--transition-fast); border: 2px solid transparent;">
+                    <div style="font-size: 40px; margin-bottom: 16px; color: var(--blue);">
+                        <i class="fas fa-history"></i>
+                    </div>
+                    <div style="font-size: 16px; font-weight: 600; margin-bottom: 8px;">Story</div>
+                    <div style="font-size: 13px; color: var(--text-secondary);">Share moments that disappear</div>
+                </div>
+
+                <div class="modal-option" onclick="createContent('reel')" style="padding: 30px 20px; background: var(--bg-tertiary); border-radius: var(--radius-lg); text-align: center; cursor: pointer; transition: var(--transition-fast); border: 2px solid transparent;">
+                    <div style="font-size: 40px; margin-bottom: 16px; color: var(--danger);">
+                        <i class="fas fa-play-circle"></i>
+                    </div>
+                    <div style="font-size: 16px; font-weight: 600; margin-bottom: 8px;">Reel</div>
+                    <div style="font-size: 13px; color: var(--text-secondary);">Create short videos</div>
+                </div>
+
+                <div class="modal-option" onclick="createContent('live')" style="padding: 30px 20px; background: var(--bg-tertiary); border-radius: var(--radius-lg); text-align: center; cursor: pointer; transition: var(--transition-fast); border: 2px solid transparent;">
+                    <div style="font-size: 40px; margin-bottom: 16px; color: var(--success);">
+                        <i class="fas fa-broadcast-tower"></i>
+                    </div>
+                    <div style="font-size: 16px; font-weight: 600; margin-bottom: 8px;">Live</div>
+                    <div style="font-size: 13px; color: var(--text-secondary);">Broadcast in real time</div>
+                </div>
+
+                <div class="modal-option" onclick="createContent('collab')" style="padding: 30px 20px; background: var(--bg-tertiary); border-radius: var(--radius-lg); text-align: center; cursor: pointer; transition: var(--transition-fast); border: 2px solid transparent; grid-column: span 2;">
+                    <div style="font-size: 40px; margin-bottom: 16px; background: var(--gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <div style="font-size: 16px; font-weight: 600; margin-bottom: 8px;">Collaborative Post</div>
+                    <div style="font-size: 13px; color: var(--text-secondary);">Create content with friends</div>
+                    <div style="font-size: 11px; color: var(--blue); margin-top: 8px; font-weight: 600;">
+                        <i class="fas fa-star"></i> NEW FEATURE
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Algorithm Dashboard Modal -->
+    <div class="modal" id="algoModal">
+        <div class="modal-content">
+            <div class="modal-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 32px; padding-bottom: 20px; border-bottom: 1px solid var(--border);">
+                <div style="font-size: 24px; font-weight: 700;">AI Feed Control</div>
+                <button class="modal-close" onclick="closeModal('algoModal')" style="background: var(--bg-tertiary); border: none; color: var(--text-primary); font-size: 20px; cursor: pointer; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; transition: var(--transition-fast);">&times;</button>
+            </div>
+
+            <div class="algo-dashboard">
+                <div style="background: rgba(0, 149, 246, 0.05); border-radius: var(--radius-lg); padding: 20px; margin-bottom: 24px; border: 1px solid rgba(0, 149, 246, 0.2);">
+                    <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 16px;">
+                        <i class="fas fa-robot" style="color: var(--blue); font-size: 20px;"></i>
+                        <div style="font-size: 18px; font-weight: 700;">Tune Your Algorithm</div>
+                    </div>
+                    <div style="font-size: 14px; color: var(--text-secondary); line-height: 1.6;">
+                        Customize what you see in your feed. The AI will learn your preferences and show more of what you love.
+                    </div>
+                </div>
+
+                <div style="margin-bottom: 32px;">
+                    <div style="font-size: 16px; font-weight: 600; margin-bottom: 20px; color: var(--text-primary);">Content Preferences</div>
+
+                    <div style="margin-bottom: 24px;">
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 12px;">
+                            <div style="font-size: 14px; font-weight: 500;">Photos vs Videos</div>
+                            <div style="font-size: 14px; color: var(--text-secondary);" id="photoVideoValue">50% Photos</div>
+                        </div>
+                        <input type="range" min="0" max="100" value="50" class="slider" oninput="updateAlgoSlider(this, 'photoVideo')" style="width: 100%; height: 6px; border-radius: 3px; background: var(--border); outline: none; -webkit-appearance: none;">
+                        <div style="display: flex; justify-content: space-between; margin-top: 8px;">
+                            <div style="font-size: 12px; color: var(--text-secondary);">More Photos</div>
+                            <div style="font-size: 12px; color: var(--text-secondary);">More Videos</div>
+                        </div>
+                    </div>
+
+                    <div style="margin-bottom: 24px;">
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 12px;">
+                            <div style="font-size: 14px; font-weight: 500;">Friends vs Discover</div>
+                            <div style="font-size: 14px; color: var(--text-secondary);" id="friendsDiscoverValue">70% Friends</div>
+                        </div>
+                        <input type="range" min="0" max="100" value="70" class="slider" oninput="updateAlgoSlider(this, 'friendsDiscover')" style="width: 100%; height: 6px; border-radius: 3px; background: var(--border); outline: none; -webkit-appearance: none;">
+                        <div style="display: flex; justify-content: space-between; margin-top: 8px;">
+                            <div style="font-size: 12px; color: var(--text-secondary);">Friends Only</div>
+                            <div style="font-size: 12px; color: var(--text-secondary);">Discover New</div>
+                        </div>
+                    </div>
+
+                    <div style="margin-bottom: 24px;">
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 12px;">
+                            <div style="font-size: 14px; font-weight: 500;">Educational vs Entertainment</div>
+                            <div style="font-size: 14px; color: var(--text-secondary);" id="eduEntValue">60% Educational</div>
+                        </div>
+                        <input type="range" min="0" max="100" value="60" class="slider" oninput="updateAlgoSlider(this, 'eduEnt')" style="width: 100%; height: 6px; border-radius: 3px; background: var(--border); outline: none; -webkit-appearance: none;">
+                        <div style="display: flex; justify-content: space-between; margin-top: 8px;">
+                            <div style="font-size: 12px; color: var(--text-secondary);">Learn</div>
+                            <div style="font-size: 12px; color: var(--text-secondary);">Entertain</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="margin-bottom: 32px;">
+                    <div style="font-size: 16px; font-weight: 600; margin-bottom: 20px; color: var(--text-primary);">Interest Categories</div>
+                    <div style="display: flex; flex-wrap: wrap; gap: 10px;">
+                        <div class="interest-tag active" onclick="toggleInterest(this)" style="padding: 10px 18px; border-radius: 20px; border: 1px solid var(--blue); background: rgba(0, 149, 246, 0.1); color: var(--blue); font-size: 13px; cursor: pointer; transition: var(--transition-fast);">
+                            <i class="fas fa-paint-brush"></i> Art & Design
+                        </div>
+                        <div class="interest-tag active" onclick="toggleInterest(this)" style="padding: 10px 18px; border-radius: 20px; border: 1px solid var(--blue); background: rgba(0, 149, 246, 0.1); color: var(--blue); font-size: 13px; cursor: pointer; transition: var(--transition-fast);">
+                            <i class="fas fa-laptop-code"></i> Technology
+                        </div>
+                        <div class="interest-tag" onclick="toggleInterest(this)" style="padding: 10px 18px; border-radius: 20px; border: 1px solid var(--border); background: var(--bg-tertiary); color: var(--text-secondary); font-size: 13px; cursor: pointer; transition: var(--transition-fast);">
+                            <i class="fas fa-dumbbell"></i> Fitness
+                        </div>
+                        <div class="interest-tag active" onclick="toggleInterest(this)" style="padding: 10px 18px; border-radius: 20px; border: 1px solid var(--blue); background: rgba(0, 149, 246, 0.1); color: var(--blue); font-size: 13px; cursor: pointer; transition: var(--transition-fast);">
+                            <i class="fas fa-camera"></i> Photography
+                        </div>
+                        <div class="interest-tag" onclick="toggleInterest(this)" style="padding: 10px 18px; border-radius: 20px; border: 1px solid var(--border); background: var(--bg-tertiary); color: var(--text-secondary); font-size: 13px; cursor: pointer; transition: var(--transition-fast);">
+                            <i class="fas fa-utensils"></i> Food
+                        </div>
+                        <div class="interest-tag" onclick="toggleInterest(this)" style="padding: 10px 18px; border-radius: 20px; border: 1px solid var(--border); background: var(--bg-tertiary); color: var(--text-secondary); font-size: 13px; cursor: pointer; transition: var(--transition-fast);">
+                            <i class="fas fa-plane"></i> Travel
+                        </div>
+                        <div class="interest-tag active" onclick="toggleInterest(this)" style="padding: 10px 18px; border-radius: 20px; border: 1px solid var(--blue); background: rgba(0, 149, 246, 0.1); color: var(--blue); font-size: 13px; cursor: pointer; transition: var(--transition-fast);">
+                            <i class="fas fa-music"></i> Music
+                        </div>
+                    </div>
+                </div>
+
+                <div style="margin-top: 32px; padding-top: 24px; border-top: 1px solid var(--border);">
+                    <button onclick="saveAlgorithmPreferences()" style="width: 100%; padding: 16px; background: var(--gradient); border: none; border-radius: var(--radius-lg); color: white; font-size: 16px; font-weight: 600; cursor: pointer; transition: var(--transition-fast);">
+                        Save Preferences
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mood Filter Modal -->
+    <div class="modal" id="moodModal">
+        <div class="modal-content">
+            <div class="modal-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 32px; padding-bottom: 20px; border-bottom: 1px solid var(--border);">
+                <div style="font-size: 24px; font-weight: 700;">Mood Filter</div>
+                <button class="modal-close" onclick="closeModal('moodModal')" style="background: var(--bg-tertiary); border: none; color: var(--text-primary); font-size: 20px; cursor: pointer; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; transition: var(--transition-fast);">&times;</button>
+            </div>
+
+            <div style="text-align: center; margin-bottom: 32px;">
+                <div style="font-size: 16px; color: var(--text-secondary); margin-bottom: 24px; line-height: 1.6;">
+                    Select your current mood to see content that matches how you're feeling right now.
+                </div>
+
+                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px;">
+                    <div class="mood-option" onclick="selectMood('happy')" style="padding: 24px 16px; background: rgba(255, 193, 7, 0.1); border: 2px solid rgba(255, 193, 7, 0.3); border-radius: var(--radius-lg); text-align: center; cursor: pointer; transition: var(--transition-fast);">
+                        <div style="font-size: 40px; margin-bottom: 16px;">😊</div>
+                        <div style="font-size: 16px; font-weight: 600;">Happy</div>
+                    </div>
+
+                    <div class="mood-option" onclick="selectMood('relaxed')" style="padding: 24px 16px; background: rgba(76, 175, 80, 0.1); border: 2px solid rgba(76, 175, 80, 0.3); border-radius: var(--radius-lg); text-align: center; cursor: pointer; transition: var(--transition-fast);">
+                        <div style="font-size: 40px; margin-bottom: 16px;">😌</div>
+                        <div style="font-size: 16px; font-weight: 600;">Relaxed</div>
+                    </div>
+
+                    <div class="mood-option" onclick="selectMood('inspired')" style="padding: 24px 16px; background: rgba(156, 39, 176, 0.1); border: 2px solid rgba(156, 39, 176, 0.3); border-radius: var(--radius-lg); text-align: center; cursor: pointer; transition: var(--transition-fast);">
+                        <div style="font-size: 40px; margin-bottom: 16px;">✨</div>
+                        <div style="font-size: 16px; font-weight: 600;">Inspired</div>
+                    </div>
+
+                    <div class="mood-option" onclick="selectMood('energetic')" style="padding: 24px 16px; background: rgba(244, 67, 54, 0.1); border: 2px solid rgba(244, 67, 54, 0.3); border-radius: var(--radius-lg); text-align: center; cursor: pointer; transition: var(--transition-fast);">
+                        <div style="font-size: 40px; margin-bottom: 16px;">⚡</div>
+                        <div style="font-size: 16px; font-weight: 600;">Energetic</div>
+                    </div>
+
+                    <div class="mood-option" onclick="selectMood('focused')" style="padding: 24px 16px; background: rgba(33, 150, 243, 0.1); border: 2px solid rgba(33, 150, 243, 0.3); border-radius: var(--radius-lg); text-align: center; cursor: pointer; transition: var(--transition-fast);">
+                        <div style="font-size: 40px; margin-bottom: 16px;">🎯</div>
+                        <div style="font-size: 16px; font-weight: 600;">Focused</div>
+                    </div>
+
+                    <div class="mood-option" onclick="selectMood('creative')" style="padding: 24px 16px; background: rgba(255, 152, 0, 0.1); border: 2px solid rgba(255, 152, 0, 0.3); border-radius: var(--radius-lg); text-align: center; cursor: pointer; transition: var(--transition-fast);">
+                        <div style="font-size: 40px; margin-bottom: 16px;">🎨</div>
+                        <div style="font-size: 16px; font-weight: 600;">Creative</div>
+                    </div>
+                </div>
+            </div>
+
+            <div style="margin-top: 32px; padding-top: 24px; border-top: 1px solid var(--border);">
+                <button onclick="applyMoodFilter()" style="width: 100%; padding: 16px; background: var(--gradient); border: none; border-radius: var(--radius-lg); color: white; font-size: 16px; font-weight: 600; cursor: pointer; transition: var(--transition-fast);">
+                    Apply Mood Filter
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div class="toast" id="toast">
+        <i class="fas fa-check-circle" style="color: var(--success); font-size: 20px;"></i>
+        <div id="toastMessage">Action completed successfully!</div>
+    </div>
+
+    <script>
+        // ======================
+        // APP STATE & DATA
+        // ======================
+        const appState = {
+            currentUser: {
+                id: "user_001",
+                username: "karthik - Head of UX",
+                fullName: "Karthik Venkataramani",
+                avatar: "https://media.licdn.com/dms/image/v2/C5103AQG3zlK4hE7NQw/profile-displayphoto-shrink_400_400/profile-displayphoto-shrink_400_400/0/1555160728975?e=1769040000&v=beta&t=LRcBu0WSrenT6_fRjDxpRgqAcE7QKSVq_SpTQRfa7ys",
+                bio: "Head UX Design  • Digital Creator • Photography Enthusiast",
+                website: "www.linkedin.com/in/kartvenk",
+                followers: 24500,
+                following: 1284,
+                posts: 142,
+                isVerified: true,
+                isPro: true
+            },
+            currentPage: "home",
+            currentProfileTab: "posts",
+            currentMood: null,
+            algorithmSettings: {
+                photoVideo: 50,
+                friendsDiscover: 70,
+                postsReels: 60,
+                eduEnt: 60,
+                interests: ["art", "tech", "photography", "music"]
+            },
+            likedPosts: new Set(),
+            savedPosts: new Set(),
+            bookmarkedPosts: new Set(),
+            following: new Set(["sarah_design", "tech_innovate", "creative_mind", "photo_pro", "reels_daily", "travel_life"])
+        };
+
+        // Sample data for posts
+        const samplePosts = [
+            {
+                id: "post_001",
+                userId: "design_studio",
+                username: "design_studio",
+                fullName: "Design Studio",
+                avatar: "https://images.unsplash.com/photo-1559839734-2b71ea197ec2?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+                location: "San Francisco, CA",
+                image: "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
+                caption: "Beautiful sunset over the city skyline 🌆 #photography #sunset #cityscape",
+                likes: 2847,
+                comments: 124,
+                shares: 45,
+                time: "2 hours ago",
+                isNewFeature: true
+            },
+            
+            {
+                id: "post_003",
+                userId: "creative_mind",
+                username: "creative_mind",
+                fullName: "Creative Mind",
+                avatar: "https://images.unsplash.com/photo-1494790108755-2616c113a1c0?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80",
+                location: "New York, NY",
+                image: "https://images.unsplash.com/photo-1541961017774-22349e4a1262?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
+                caption: "New artwork in progress 🎨✨ Process is everything! #art #creative #workinprogress",
+                likes: 1543,
+                comments: 89,
+                shares: 23,
+                time: "8 hours ago",
+                isNewFeature: true
+            }
+        ];
+
+        const sampleStories = [
+            { id: "story_001", userId: "sarah_design", username: "sarah_design", avatar: "https://images.unsplash.com/photo-1494790108755-2616c113a1c0?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80", hasUnseen: true },
+            { id: "story_002", userId: "ux_master", username: "ux_master", avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80", hasUnseen: true },
+            { id: "story_003", userId: "photo_pro", username: "photo_pro", avatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80", hasUnseen: false },
+            { id: "story_004", userId: "reels_daily", username: "reels_daily", avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80", hasUnseen: true },
+            { id: "story_005", userId: "travel_life", username: "travel_life", avatar: "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80", hasUnseen: false }
+        ];
+
+        const sampleSuggestions = [
+            { id: "sug_001", userId: "alice_codes", username: "alice_codes", fullName: "Alice Codes", avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80", reason: "Followed by sarah_design + 3 more" },
+            { id: "sug_002", userId: "bob_dev", username: "bob_dev", fullName: "Bob Developer", avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80", reason: "Popular in Tech" },
+            { id: "sug_003", userId: "emma_art", username: "emma_art", fullName: "Emma Art", avatar: "https://images.unsplash.com/photo-1544725176-7c40e5a71c5e?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80", reason: "Followed by creative_mind" },
+            { id: "sug_004", userId: "john_photo", username: "john_photo", fullName: "John Photographer", avatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80", reason: "Professional photographer" },
+            { id: "sug_005", userId: "maya_travel", username: "maya_travel", fullName: "Maya Travel", avatar: "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80", reason: "Travel blogger" }
+        ];
+
+        const sampleNotifications = [
+            { id: "notif_001", type: "like", userId: "sarah_design", username: "sarah_design", message: "liked your post", time: "2 minutes ago", isRead: false },
+            { id: "notif_002", type: "comment", userId: "tech_innovate", username: "tech_innovate", message: "commented: 'Amazing work!'", time: "15 minutes ago", isRead: false },
+            { id: "notif_003", type: "follow", userId: "creative_mind", username: "creative_mind", message: "started following you", time: "1 hour ago", isRead: true },
+            { id: "notif_004", type: "save", userId: "photo_pro", username: "photo_pro", message: "saved your post", time: "3 hours ago", isRead: true },
+            { id: "notif_005", type: "mention", userId: "reels_daily", username: "reels_daily", message: "mentioned you in a story", time: "5 hours ago", isRead: true }
+        ];
+
+        // ======================
+        // UTILITY FUNCTIONS
+        // ======================
+        function showToast(message, type = "success") {
+            const toast = document.getElementById("toast");
+            const toastMessage = document.getElementById("toastMessage");
+
+            toastMessage.textContent = message;
+            toast.className = `toast ${type}`;
+            toast.classList.add("show");
+
+            setTimeout(() => {
+                toast.classList.remove("show");
+            }, 3000);
+        }
+
+        function formatNumber(num) {
+            if (num >= 1000000) {
+                return (num / 1000000).toFixed(1) + "M";
+            } else if (num >= 1000) {
+                return (num / 1000).toFixed(1) + "K";
+            }
+            return num.toString();
+        }
+
+        // ======================
+        // NAVIGATION
+        // ======================
+        function navigateTo(page) {
+            // Hide all sections
+            document.getElementById('feedSection').style.display = 'none';
+            document.getElementById('notificationsSection').style.display = 'none';
+            document.getElementById('messagesSection').style.display = 'none';
+            document.getElementById('profileSection').style.display = 'none';
+            document.getElementById('exploreSection').style.display = 'none';
+
+            // Remove active class from all nav items
+            document.querySelectorAll('.nav-item').forEach(item => {
+                item.classList.remove('active');
+            });
+
+            // Show selected section and activate nav item
+            if (page === 'home') {
+                document.getElementById('feedSection').style.display = 'block';
+                document.querySelectorAll('.nav-item')[0].classList.add('active');
+                loadFeedPosts();
+                loadStories();
+            } else if (page === 'explore') {
+                document.getElementById('exploreSection').style.display = 'block';
+                document.querySelectorAll('.nav-item')[1].classList.add('active');
+                loadExploreContent();
+            } else if (page === 'messages') {
+                document.getElementById('messagesSection').style.display = 'block';
+                document.querySelectorAll('.nav-item')[3].classList.add('active');
+                loadMessageThreads();
+            } else if (page === 'notifications') {
+                document.getElementById('notificationsSection').style.display = 'block';
+                document.querySelectorAll('.nav-item')[4].classList.add('active');
+                loadNotifications();
+            } else if (page === 'profile') {
+                document.getElementById('profileSection').style.display = 'block';
+                document.querySelectorAll('.nav-item')[5].classList.add('active');
+                loadProfilePosts();
+            }
+
+            // Update app state
+            appState.currentPage = page;
+
+            // Scroll to top
+            document.querySelector('.feed-section:not([style*="display: none"])').scrollTop = 0;
+
+            showToast(`Navigated to ${page.charAt(0).toUpperCase() + page.slice(1)}`);
+        }
+
+        // ======================
+        // FEED FUNCTIONS
+        // ======================
+        function loadFeedPosts() {
+            const feedPosts = document.getElementById("feedPosts");
+            feedPosts.innerHTML = "";
+
+            samplePosts.forEach(post => {
+                const isLiked = appState.likedPosts.has(post.id);
+                const isSaved = appState.savedPosts.has(post.id);
+                const isBookmarked = appState.bookmarkedPosts.has(post.id);
+
+                const postElement = document.createElement("div");
+                postElement.className = `post-card ${post.isNewFeature ? 'new-feature' : ''}`;
+                postElement.innerHTML = `
+                    <div class="post-header">
+                        <div class="post-user" onclick="viewProfile('${post.userId}')">
+                            <div class="post-avatar">
+                                <div class="post-avatar-inner">
+                                    <img src="${post.avatar}" alt="${post.username}">
+                                </div>
+                            </div>
+                            <div class="post-info">
+                                <div class="post-username">${post.username}</div>
+                                <div class="post-location">${post.location}</div>
+                            </div>
+                        </div>
+                        <button class="post-menu" onclick="showPostMenu('${post.id}')">
+                            <i class="fas fa-ellipsis-h"></i>
+                        </button>
+                    </div>
+                    <div class="post-image" onclick="viewPost('${post.id}')">
+                        <img src="${post.image}" alt="Post image">
+                    </div>
+                    <div class="post-actions">
+                        <div class="action-left">
+                            <button class="action-btn ${isLiked ? 'liked' : ''}" onclick="toggleLike('${post.id}', this)" title="Like">
+                                <i class="fas fa-heart"></i>
+                            </button>
+                            <button class="action-btn" onclick="showComments('${post.id}')" title="Comment">
+                                <i class="fas fa-comment"></i>
+                            </button>
+                            <button class="action-btn" onclick="sharePost('${post.id}')" title="Share">
+                                <i class="fas fa-paper-plane"></i>
+                            </button>
+                        </div>
+                        <div>
+                            <button class="action-btn ${isSaved ? 'saved' : ''}" onclick="toggleSave('${post.id}', this)" title="Save">
+                                <i class="fas fa-bookmark"></i>
+                            </button>
+                            <button class="action-btn ${isBookmarked ? 'bookmarked' : ''}" onclick="toggleBookmark('${post.id}', this)" title="Bookmark">
+                                <i class="fas fa-star"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="post-likes" onclick="showLikes('${post.id}')">
+                        ${formatNumber(post.likes)} likes
+                    </div>
+                    <div class="post-caption">
+                        <span class="username" onclick="viewProfile('${post.userId}')">${post.username}</span>
+                        ${post.caption}
+                    </div>
+                    <div class="post-comments" onclick="showComments('${post.id}')">
+                        View all ${post.comments} comments
+                    </div>
+                    <div class="post-time">${post.time}</div>
+                `;
+
+                feedPosts.appendChild(postElement);
+            });
+        }
+
+        function loadStories() {
+            const storiesContainer = document.querySelector(".stories-container");
+            if (!storiesContainer) return;
+
+            // Clear existing stories except the first one (Your story)
+            const yourStory = storiesContainer.querySelector(".story-item:first-child");
+            storiesContainer.innerHTML = "";
+            storiesContainer.appendChild(yourStory);
+
+            // Add sample stories
+            sampleStories.forEach(story => {
+                const storyElement = document.createElement("div");
+                storyElement.className = "story-item";
+                storyElement.onclick = () => viewStory(story.userId);
+
+                storyElement.innerHTML = `
+                    <div class="story-ring ${story.hasUnseen ? '' : 'seen'}">
+                        <div class="story-avatar" style="background: var(--bg-tertiary); width: 74px; height: 74px; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                            <img src="${story.avatar}" alt="${story.username}" style="width: 100%; height: 100%; border-radius: 50%; object-fit: cover;">
+                        </div>
+                    </div>
+                    <div class="story-name">${story.username}</div>
+                `;
+
+                storiesContainer.appendChild(storyElement);
+            });
+        }
+
+        function toggleFeed(element, feedType) {
+            document.querySelectorAll('.feed-chip').forEach(chip => {
+                chip.classList.remove('active');
+            });
+            element.classList.add('active');
+
+            // Show loading indicator
+            const feedPosts = document.getElementById("feedPosts");
+            const loadingMore = document.getElementById("loadingMore");
+            feedPosts.innerHTML = "";
+            loadingMore.style.display = "block";
+
+            // Simulate loading new feed
+            setTimeout(() => {
+                loadFeedPosts();
+                loadingMore.style.display = "none";
+                showToast(`Switched to ${feedType} feed`);
+            }, 500);
+        }
+
+        // ======================
+        // PROFILE FUNCTIONS
+        // ======================
+        function loadProfilePosts() {
+            const profileGrid = document.getElementById("profileGrid");
+            if (!profileGrid) return;
+
+            profileGrid.innerHTML = "";
+
+            // Generate random Unsplash images for profile grid
+            const imageIds = [
+                '1541961017774-22349e4a1262', '1507003211169-0a1dd7228f2d',
+                '1535713875002-d1d0cf377fde', '1494790108755-2616c113a1c0',
+                '1524504388940-b1c1722653e1', '1534528741775-53994a69daeb',
+                '1500648767791-00dcc994a43e', '1544725176-7c40e5a71c5e',
+                '1559839734-2b71ea197ec2', '1518709268805-4e9042af2176',
+                '1542744173-8e7e53415bb0', '1524504388940-b1c1722653e1'
+            ];
+
+            imageIds.forEach((id, index) => {
+                const gridItem = document.createElement("div");
+                gridItem.className = "grid-item";
+                gridItem.onclick = () => viewPost(`profile_${index}`);
+
+                gridItem.innerHTML = `
+                    <img src="https://images.unsplash.com/photo-${id}?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Profile post ${index + 1}">
+                    <div class="grid-item-overlay">
+                        <div class="grid-stats">
+                            <span class="grid-stat-value">
+                                <i class="fas fa-heart"></i> ${Math.floor(Math.random() * 1000) + 100}
+                            </span>
+                            <span class="grid-stat-label">Likes</span>
+                        </div>
+                        <div class="grid-stats">
+                            <span class="grid-stat-value">
+                                <i class="fas fa-comment"></i> ${Math.floor(Math.random() * 100) + 10}
+                            </span>
+                            <span class="grid-stat-label">Comments</span>
+                        </div>
+                    </div>
+                `;
+
+                profileGrid.appendChild(gridItem);
+            });
+        }
+
+        function switchProfileTab(tab) {
+            appState.currentProfileTab = tab;
+
+            // Update active tab
+            document.querySelectorAll('.profile-tab').forEach(tabElement => {
+                tabElement.classList.remove('active');
+            });
+
+            const activeTab = Array.from(document.querySelectorAll('.profile-tab')).find(
+                t => t.textContent.toLowerCase().includes(tab)
+            );
+            if (activeTab) activeTab.classList.add('active');
+
+            // Load content for the selected tab
+            const profileGrid = document.getElementById("profileGrid");
+            if (!profileGrid) return;
+
+            profileGrid.innerHTML = '<div style="text-align: center; padding: 60px 20px; color: var(--text-secondary);"><div class="loader" style="margin: 0 auto;"></div><div style="margin-top: 16px;">Loading ${tab}...</div></div>';
+
+            // Simulate loading delay
+            setTimeout(() => {
+                if (tab === 'posts') {
+                    loadProfilePosts();
+                } else if (tab === 'collections') {
+                    profileGrid.innerHTML = `
+                        <div style="grid-column: 1 / -1; text-align: center; padding: 80px 20px;">
+                            <i class="fas fa-bookmark" style="font-size: 64px; color: var(--text-secondary); margin-bottom: 24px;"></i>
+                            <h3 style="font-size: 20px; margin-bottom: 12px;">Your Collections</h3>
+                            <p style="color: var(--text-secondary); margin-bottom: 24px;">Save posts to your collections to organize your favorite content.</p>
+                            <button onclick="createCollection()" style="padding: 12px 24px; background: var(--gradient); border: none; border-radius: var(--radius-md); color: white; font-weight: 600; cursor: pointer;">
+                                Create Collection
+                            </button>
+                        </div>
+                    `;
+                    showToast("Showing your collections");
+                } else {
+                    profileGrid.innerHTML = `
+                        <div style="grid-column: 1 / -1; text-align: center; padding: 80px 20px;">
+                            <i class="fas fa-${tab === 'reels' ? 'play-circle' : tab === 'tagged' ? 'tag' : 'archive'}" style="font-size: 64px; color: var(--text-secondary); margin-bottom: 24px;"></i>
+                            <h3 style="font-size: 20px; margin-bottom: 12px;">${tab.charAt(0).toUpperCase() + tab.slice(1)}</h3>
+                            <p style="color: var(--text-secondary);">No ${tab} to show yet.</p>
+                        </div>
+                    `;
+                }
+            }, 500);
+
+            showToast(`Switched to ${tab}`);
+        }
+
+        function editProfile() {
+            showToast("Edit profile feature would open here");
+            // In a real app, this would open a modal or new page for editing profile
+        }
+
+        function showProfileSettings() {
+            showAlgoDashboard();
+        }
+
+        function shareProfile() {
+            showToast("Profile link copied to clipboard");
+            // In a real app, this would copy the profile URL to clipboard
+        }
+
+        function showStatsModal(type) {
+            let title = "";
+            let count = 0;
+
+            if (type === 'posts') {
+                title = "Posts";
+                count = appState.currentUser.posts;
+            } else if (type === 'followers') {
+                title = "Followers";
+                count = appState.currentUser.followers;
+            } else if (type === 'following') {
+                title = "Following";
+                count = appState.currentUser.following;
+            }
+
+            showToast(`Showing ${title.toLowerCase()} list (${formatNumber(count)} total)`);
+            // In a real app, this would open a modal with the list
+        }
+
+        // ======================
+        // POST INTERACTIONS
+        // ======================
+        function toggleLike(postId, button) {
+            if (appState.likedPosts.has(postId)) {
+                appState.likedPosts.delete(postId);
+                button.classList.remove('liked');
+                button.innerHTML = '<i class="fas fa-heart"></i>';
+                showToast("Post unliked");
+            } else {
+                appState.likedPosts.add(postId);
+                button.classList.add('liked');
+                button.innerHTML = '<i class="fas fa-heart"></i>';
+
+                // Add animation
+                button.style.transform = 'scale(1.3)';
+                setTimeout(() => {
+                    button.style.transform = 'scale(1)';
+                }, 200);
+
+                showToast("Post liked");
+            }
+        }
+
+        function toggleSave(postId, button) {
+            if (appState.savedPosts.has(postId)) {
+                appState.savedPosts.delete(postId);
+                button.classList.remove('saved');
+                showToast("Post removed from saved");
+            } else {
+                appState.savedPosts.add(postId);
+                button.classList.add('saved');
+                showToast("Post saved to collection");
+            }
+        }
+
+        function toggleBookmark(postId, button) {
+            if (appState.bookmarkedPosts.has(postId)) {
+                appState.bookmarkedPosts.delete(postId);
+                button.classList.remove('bookmarked');
+                showToast("Post unbookmarked");
+            } else {
+                appState.bookmarkedPosts.add(postId);
+                button.classList.add('bookmarked');
+                showToast("Post bookmarked");
+            }
+        }
+
+        function showPostMenu(postId) {
+            showToast("Post options: Share, Report, Copy Link, etc.");
+            // In a real app, this would show a menu with options
+        }
+
+        function showComments(postId) {
+            showToast("Opening comments section...");
+            // In a real app, this would open a comments modal
+        }
+
+        function sharePost(postId) {
+            showToast("Share options: Copy Link, Share to Story, Send Message, etc.");
+            // In a real app, this would show share options
+        }
+
+        function showLikes(postId) {
+            showToast("Showing users who liked this post...");
+            // In a real app, this would open a modal with likes
+        }
+
+        // ======================
+        // EXPLORE FUNCTIONS
+        // ======================
+        function loadExploreContent() {
+            const exploreGrid = document.getElementById("exploreGrid");
+            if (!exploreGrid) return;
+
+            exploreGrid.innerHTML = "";
+
+            // Generate random Unsplash images for explore grid
+            const imageIds = [
+                '1579546929662-711aa81148cf', '1559827291-72ee739d0d9a',
+                '1542291026-7eec264c27ff', '1523275335684-37898b6baf30',
+                '1511556532299-8a6625af94a6', '1491553895911-0055eca6402d',
+                '1505740420928-5e560c06d30e', '1545235617-9465d2a55698',
+                '1526170375885-4d8ecf77b99f', '1544947950-fa07a98d237f',
+                '1512941937669-90a1b58e7e9c', '1518005068251-0a0b7f009c5a',
+                '1516807946-5a6a6c0e7b7a', '1516339901601-2f1b6a3b3b1b',
+                '1516724562728-6a2c0b0e9c5a'
+            ];
+
+            imageIds.forEach((id, index) => {
+                const gridItem = document.createElement("div");
+                gridItem.className = "grid-item";
+                gridItem.onclick = () => viewPost(`explore_${index}`);
+
+                gridItem.innerHTML = `
+                    <img src="https://images.unsplash.com/photo-${id}?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Explore content ${index + 1}">
+                    <div class="grid-item-overlay">
+                        <div class="grid-stats">
+                            <span class="grid-stat-value">
+                                <i class="fas fa-heart"></i> ${Math.floor(Math.random() * 5000) + 500}
+                            </span>
+                            <span class="grid-stat-label">Likes</span>
+                        </div>
+                    </div>
+                `;
+
+                exploreGrid.appendChild(gridItem);
+            });
+        }
+
+        function toggleExploreFilter(filter) {
+            document.querySelectorAll('#exploreSection .feed-chip').forEach(chip => {
+                chip.classList.remove('active');
+            });
+
+            const activeChip = Array.from(document.querySelectorAll('#exploreSection .feed-chip')).find(
+                chip => chip.textContent.toLowerCase().includes(filter)
+            );
+            if (activeChip) activeChip.classList.add('active');
+
+            showToast(`Showing ${filter} content`);
+            loadExploreContent();
+        }
+
+        function handleExploreSearch(event) {
+            if (event.key === 'Enter') {
+                const query = event.target.value;
+                showToast(`Searching for: ${query}`);
+                // In a real app, this would perform a search
+            }
+        }
+
+        // ======================
+        // MESSAGES & NOTIFICATIONS
+        // ======================
+        function loadNotifications() {
+            const notificationList = document.getElementById("notificationList");
+            if (!notificationList) return;
+
+            notificationList.innerHTML = "";
+
+            sampleNotifications.forEach(notification => {
+                const notificationElement = document.createElement("div");
+                notificationElement.className = `notification-item ${notification.isRead ? '' : 'unread'}`;
+                notificationElement.onclick = () => viewNotification(notification.id);
+
+                let icon = "";
+                switch (notification.type) {
+                    case 'like': icon = '<i class="fas fa-heart"></i>'; break;
+                    case 'comment': icon = '<i class="fas fa-comment"></i>'; break;
+                    case 'follow': icon = '<i class="fas fa-user-plus"></i>'; break;
+                    case 'save': icon = '<i class="fas fa-bookmark"></i>'; break;
+                    case 'mention': icon = '<i class="fas fa-at"></i>'; break;
+                }
+
+                notificationElement.innerHTML = `
+                    <div style="width: 44px; height: 44px; border-radius: 50%; background: var(--gradient); display: flex; align-items: center; justify-content: center; font-size: 18px; color: white;">
+                        ${icon}
+                    </div>
+                    <div style="flex: 1;">
+                        <div>
+                            <strong>${notification.username}</strong> ${notification.message}
+                        </div>
+                        <div style="font-size: 12px; color: var(--text-secondary); margin-top: 4px;">
+                            ${notification.time}
+                        </div>
+                    </div>
+                `;
+
+                notificationList.appendChild(notificationElement);
+            });
+        }
+
+        function markAllAsRead() {
+            sampleNotifications.forEach(notif => notif.isRead = true);
+            loadNotifications();
+            showToast("All notifications marked as read");
+        }
+
+        function loadMessageThreads() {
+            const messageThreads = document.getElementById("messageThreads");
+            if (!messageThreads) return;
+
+            messageThreads.innerHTML = "";
+
+            sampleSuggestions.slice(0, 5).forEach(user => {
+                const messageElement = document.createElement("div");
+                messageElement.className = "message-item";
+                messageElement.onclick = () => openChat(user.userId);
+
+                messageElement.innerHTML = `
+                    <div style="width: 56px; height: 56px; border-radius: 50%; overflow: hidden;">
+                        <img src="${user.avatar}" alt="${user.username}" style="width: 100%; height: 100%; object-fit: cover;">
+                    </div>
+                    <div style="flex: 1;">
+                        <div style="font-size: 14px; font-weight: 600; margin-bottom: 4px;">${user.username}</div>
+                        <div style="font-size: 13px; color: var(--text-secondary); overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+                            Active today • Tap to message
+                        </div>
+                    </div>
+                `;
+
+                messageThreads.appendChild(messageElement);
+            });
+        }
+
+        function openChat(userId) {
+            document.querySelectorAll('.message-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            event.currentTarget.classList.add('active');
+
+            showToast(`Opening chat with ${userId}`);
+            // In a real app, this would load the chat
+        }
+
+        function startNewChat() {
+            showToast("Starting new chat...");
+            // In a real app, this would open a new chat interface
+        }
+
+        // ======================
+        // SUGGESTIONS
+        // ======================
+        function loadSuggestions() {
+            const suggestionsList = document.getElementById("suggestionsList");
+            if (!suggestionsList) return;
+
+            suggestionsList.innerHTML = "";
+
+            sampleSuggestions.forEach(suggestion => {
+                const isFollowing = appState.following.has(suggestion.userId);
+
+                const suggestionElement = document.createElement("div");
+                suggestionElement.className = "suggestion-item";
+                suggestionElement.style.display = "flex";
+                suggestionElement.style.alignItems = "center";
+                suggestionElement.style.gap = "12px";
+                suggestionElement.style.padding = "12px";
+                suggestionElement.style.borderRadius = "var(--radius-md)";
+                suggestionElement.style.marginBottom = "8px";
+                suggestionElement.style.transition = "var(--transition-fast)";
+                suggestionElement.onmouseenter = () => suggestionElement.style.background = "var(--hover)";
+                suggestionElement.onmouseleave = () => suggestionElement.style.background = "transparent";
+
+                suggestionElement.innerHTML = `
+                    <div onclick="viewProfile('${suggestion.userId}')" style="width: 44px; height: 44px; border-radius: 50%; overflow: hidden; cursor: pointer;">
+                        <img src="${suggestion.avatar}" alt="${suggestion.username}" style="width: 100%; height: 100%; object-fit: cover;">
+                    </div>
+                    <div onclick="viewProfile('${suggestion.userId}')" style="flex: 1; cursor: pointer;">
+                        <div style="font-size: 14px; font-weight: 600;">${suggestion.username}</div>
+                        <div style="font-size: 12px; color: var(--text-secondary);">${suggestion.reason}</div>
+                    </div>
+                    <button onclick="toggleFollowUser('${suggestion.userId}', this)" style="background: ${isFollowing ? 'transparent' : 'var(--blue)'}; border: 1px solid ${isFollowing ? 'var(--border)' : 'var(--blue)'}; color: ${isFollowing ? 'var(--text-secondary)' : 'white'}; font-size: 13px; font-weight: 600; cursor: pointer; padding: 6px 14px; border-radius: 8px; transition: var(--transition-fast);">
+                        ${isFollowing ? 'Following' : 'Follow'}
+                    </button>
+                `;
+
+                suggestionsList.appendChild(suggestionElement);
+            });
+        }
+
+        function toggleFollowUser(userId, button) {
+            if (appState.following.has(userId)) {
+                appState.following.delete(userId);
+                button.textContent = "Follow";
+                button.style.background = "var(--blue)";
+                button.style.border = "1px solid var(--blue)";
+                button.style.color = "white";
+                showToast(`Unfollowed ${userId}`);
+            } else {
+                appState.following.add(userId);
+                button.textContent = "Following";
+                button.style.background = "transparent";
+                button.style.border = "1px solid var(--border)";
+                button.style.color = "var(--text-secondary)";
+                showToast(`Started following ${userId}`);
+            }
+        }
+
+        function showAllSuggestions() {
+            showToast("Showing all suggestions");
+            // In a real app, this would open a modal with all suggestions
+        }
+
+        // ======================
+        // MODAL FUNCTIONS
+        // ======================
+        function showCreateModal() {
+            document.getElementById('createModal').classList.add('active');
+        }
+
+        function showAlgoDashboard() {
+            document.getElementById('algoModal').classList.add('active');
+        }
+
+        function showMoodFilter() {
+            document.getElementById('moodModal').classList.add('active');
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.remove('active');
+        }
+
+        function createContent(type) {
+            closeModal('createModal');
+            showToast(`Creating ${type}...`);
+            // In a real app, this would open the content creator
+        }
+
+        function updateAlgoSlider(slider, type) {
+            const value = slider.value;
+            appState.algorithmSettings[type] = parseInt(value);
+
+            // Update display value
+            if (type === 'photoVideo') {
+                document.getElementById('photoVideoValue').textContent = `${value}% Photos`;
+            } else if (type === 'friendsDiscover') {
+                document.getElementById('friendsDiscoverValue').textContent = `${value}% Friends`;
+            } else if (type === 'eduEnt') {
+                document.getElementById('eduEntValue').textContent = `${value}% Educational`;
+            }
+        }
+
+        function toggleInterest(element) {
+            element.classList.toggle('active');
+
+            if (element.classList.contains('active')) {
+                element.style.border = "1px solid var(--blue)";
+                element.style.background = "rgba(0, 149, 246, 0.1)";
+                element.style.color = "var(--blue)";
+            } else {
+                element.style.border = "1px solid var(--border)";
+                element.style.background = "var(--bg-tertiary)";
+                element.style.color = "var(--text-secondary)";
+            }
+
+            showToast("Interest updated");
+        }
+
+        function saveAlgorithmPreferences() {
+            closeModal('algoModal');
+            showToast("Algorithm preferences saved! Your feed will update shortly.", "info");
+        }
+
+        function selectMood(mood) {
+            appState.currentMood = mood;
+            document.querySelectorAll('.mood-option').forEach(option => {
+                option.style.transform = "scale(1)";
+                option.style.boxShadow = "none";
+            });
+
+            event.currentTarget.style.transform = "scale(1.05)";
+            event.currentTarget.style.boxShadow = "0 8px 32px rgba(0, 0, 0, 0.3)";
+            showToast(`Selected ${mood} mood`);
+        }
+
+        function applyMoodFilter() {
+            closeModal('moodModal');
+            if (appState.currentMood) {
+                showToast(`Applied ${appState.currentMood} mood filter to your feed`, "info");
+                // In a real app, this would filter the feed based on mood
+            }
+        }
+
+        function toggleSmartSort() {
+            showToast("Smart Sort enabled: AI is now organizing your feed", "info");
+            // In a real app, this would toggle smart sorting
+        }
+
+        // ======================
+        // VIEW FUNCTIONS
+        // ======================
+        function viewProfile(userId) {
+            if (userId === appState.currentUser.username) {
+                navigateTo('profile');
+            } else {
+                showToast(`Viewing profile: ${userId}`);
+                // In a real app, this would navigate to the user's profile
+            }
+        }
+
+        function viewPost(postId) {
+            showToast(`Opening post: ${postId}`);
+            // In a real app, this would open the post in a modal or new view
+        }
+
+        function viewStory(userId) {
+            if (userId === 'your') {
+                document.getElementById('createModal').classList.add('active');
+            } else {
+                showToast(`Viewing story from: ${userId}`);
+                // In a real app, this would open the story viewer
+            }
+        }
+
+        function viewNotification(notificationId) {
+            showToast(`Opening notification: ${notificationId}`);
+            // In a real app, this would open the notification
+        }
+
+        function createStory() {
+            showCreateModal();
+        }
+
+        function createCollection() {
+            showToast("Create collection feature would open here");
+            // In a real app, this would open collection creator
+        }
+
+        // ======================
+        // KEYBOARD SHORTCUTS
+        // ======================
+        document.addEventListener('keydown', function(e) {
+            // Escape to close modals
+            if (e.key === 'Escape') {
+                document.querySelectorAll('.modal.active').forEach(modal => {
+                    modal.classList.remove('active');
+                });
+            }
+
+            // Navigation shortcuts
+            if (e.ctrlKey || e.metaKey) {
+                switch(e.key) {
+                    case '1': navigateTo('home'); break;
+                    case '2': navigateTo('explore'); break;
+                    case '3': navigateTo('profile'); break;
+                    case 'n': showCreateModal(); break;
+                    case 'm': navigateTo('messages'); break;
+                    case 'j': showToast("Next post"); break;
+                    case 'k': showToast("Previous post"); break;
+                }
+            }
+        });
+
+        // ======================
+        // INITIALIZATION
+        // ======================
+        function initializeApp() {
+            console.log('InstaNext 2026 - Next-Gen Social Experience');
+            console.log('✨ NEW FEATURES:');
+            console.log('1. AI Feed Control - Customize your algorithm');
+            console.log('2. Mood Filter - Content based on your current mood');
+            console.log('3. Collab Mode - Create content with friends');
+            console.log('4. Smart Sort - AI-powered feed organization');
+            console.log('5. Enhanced Profile - With gradient rings and status');
+            console.log('6. Collections - Organize saved content');
+            console.log('7. Bookmarks - Save posts for later reading');
+            console.log('8. AI Picks - Personalized content recommendations');
+
+            // Load initial data
+            loadFeedPosts();
+            loadStories();
+            loadSuggestions();
+            loadProfilePosts();
+
+            // Add click handler for modal backdrops
+            document.querySelectorAll('.modal').forEach(modal => {
+                modal.addEventListener('click', function(e) {
+                    if (e.target === this) {
+                        this.classList.remove('active');
+                    }
+                });
+            });
+
+            showToast("Welcome to InstaNext 2026! ✨", "info");
+        }
+
+        // Initialize when DOM is loaded
+        document.addEventListener('DOMContentLoaded', initializeApp);
+    </script>
+</body>
+</html>
