@@ -484,7 +484,85 @@
             opacity: 1;
             transform: translateY(0);
         }
-    </style>
+
+
+        /* Visual polish pass: layered glass, texture, and richer focus states */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: -1;
+            background:
+                linear-gradient(rgba(255, 255, 255, 0.025) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+                radial-gradient(circle at 50% 0%, rgba(255, 255, 255, 0.08), transparent 38%);
+            background-size: 64px 64px, 64px 64px, 100% 100%;
+            mask-image: linear-gradient(to bottom, black, transparent 88%);
+        }
+
+        ::selection {
+            background: rgba(139, 92, 246, 0.45);
+            color: var(--text-primary);
+        }
+
+        :focus-visible {
+            outline: 2px solid var(--accent-tertiary);
+            outline-offset: 4px;
+        }
+
+        header {
+            background: linear-gradient(180deg, rgba(10, 10, 10, 0.78), rgba(10, 10, 10, 0));
+        }
+
+        .hero-label,
+        .contact-btn,
+        .case-card,
+        .skills-container {
+            backdrop-filter: blur(18px) saturate(140%);
+        }
+
+        .hero-label {
+            box-shadow: 0 0 32px rgba(99, 102, 241, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+        }
+
+        h1 {
+            letter-spacing: -0.06em;
+            filter: drop-shadow(0 18px 55px rgba(99, 102, 241, 0.22));
+        }
+
+        .stat-item,
+        .skill-item {
+            padding: 18px 22px;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 18px;
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.045), rgba(255, 255, 255, 0.015));
+        }
+
+        .case-card {
+            background:
+                linear-gradient(var(--bg-card), var(--bg-card)) padding-box,
+                linear-gradient(135deg, rgba(99, 102, 241, 0.65), rgba(236, 72, 153, 0.28), rgba(255, 255, 255, 0.08)) border-box;
+            border: 1px solid transparent;
+            box-shadow: 0 1px 0 rgba(255, 255, 255, 0.06) inset, 0 24px 80px rgba(0, 0, 0, 0.28);
+        }
+
+        .case-card::after {
+            content: '';
+            position: absolute;
+            inset: 1px;
+            border-radius: 23px;
+            pointer-events: none;
+            background: linear-gradient(120deg, rgba(255, 255, 255, 0.13), transparent 34%, transparent 70%, rgba(255, 255, 255, 0.05));
+            opacity: 0.8;
+        }
+
+        .case-link {
+            width: fit-content;
+            padding-bottom: 4px;
+            border-bottom: 1px solid rgba(99, 102, 241, 0.35);
+        }
+</style>
 </head>
 <body>
     <!-- Animated Background -->
@@ -516,7 +594,7 @@
             <div class="hero-label">Product Design Portfolio</div>
             <h1>Karthik Venkataramani</h1>
             <p class="hero-subtitle">
-                Crafting intuitive and impactful product experiences through human-centered design, 
+                Crafting intuitive and impactful product experiences through human-centered design,
                 strategic thinking, and innovative solutions that bridge user needs with business goals.
             </p>
 
@@ -555,7 +633,7 @@
                         <span class="case-tag">Social Media Redesign</span>
                         <h3 class="case-title">Instanext: Future of Instagram</h3>
                         <p class="case-description">
-                            Reimagining Instagram's user experience with advanced features, enhanced content discovery, 
+                            Reimagining Instagram's user experience with advanced features, enhanced content discovery,
                             and next-generation social interactions that prioritize authenticity and meaningful connections.
                         </p>
                         <div class="case-meta">
@@ -590,7 +668,7 @@
                         <span class="case-tag">VR Experience Design</span>
                         <h3 class="case-title">VR Cybersecurity Training</h3>
                         <p class="case-description">
-                            Immersive Meta Quest training experience that transforms cybersecurity education through 
+                            Immersive Meta Quest training experience that transforms cybersecurity education through
                             interactive simulations, real-world threat scenarios, and gamified learning mechanics.
                         </p>
                         <div class="case-meta">
